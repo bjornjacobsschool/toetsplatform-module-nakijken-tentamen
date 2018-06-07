@@ -14,7 +14,9 @@ public class TentamenNakijken implements ITentamenNakijken {
     private TentamenDAO _tentamenDAO;
 
     @Inject
-    public TentamenNakijken(IGatewayServiceAgent _gatewayServiceAgent, TentamenDAO tentamenDAO){
+    public TentamenNakijken(IGatewayServiceAgent _gatewayServiceAgent, TentamenDAO _tentamenDAO){
+        this._gatewayServiceAgent = _gatewayServiceAgent;
+        this._tentamenDAO = _tentamenDAO;
 
     }
 
