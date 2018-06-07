@@ -6,7 +6,7 @@ import nl.han.toetsplatform.module.nakijken.guice.GuiceModule;
 import java.net.URL;
 
 public class ConfigTentamenNakijkenModule {
-    public static URL getFXMLTentamenUitvoeren(NakijkenTentamenFXMLFiles fxmlFile) {
+    public static URL getFXMLTentamenNakijken(NakijkenTentamenFXMLFiles fxmlFile) {
         return ConfigTentamenNakijkenModule.class.getResource("/fxml/"+fxmlFile+".fxml");
     }
 
