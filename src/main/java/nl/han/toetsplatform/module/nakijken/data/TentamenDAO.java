@@ -9,4 +9,6 @@ public interface TentamenDAO {
     List<NagekekenTentamen> getNaTeKijkenTentamens(String vak);
 
     void slaNagekekenTentamenOp(NagekekenTentamen nagekekenTentamen);
+
+    void setNaTeKijkenTentamens(List<NagekekenTentamen> naTeKijkenTentamens);
 }

@@ -10,7 +10,7 @@ public interface ITentamenNakijken {
 
     void opslaan(NagekekenTentamen nagekekenTentamen) throws GatewayCommunicationException, SQLException;
 
-    List<NagekekenTentamen> getNaTeKijkenTentamens(String vak);
+    void ophalen(String toets, String versieNummer, String klas) throws GatewayCommunicationException, SQLException;
 
     String getTestMessage();
 }
