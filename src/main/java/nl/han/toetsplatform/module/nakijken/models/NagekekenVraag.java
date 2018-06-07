@@ -2,7 +2,6 @@ package nl.han.toetsplatform.module.nakijken.models;
 
 public class NagekekenVraag {
     private String id;
-    private String studentNummer;
     private String naam;
     private String vraagType;
     private String thema;
@@ -111,14 +110,5 @@ public class NagekekenVraag {
 
     public void setVraagData(String vraagData) {
         this.vraagData = vraagData;
-    }
-
-
-    public String getStudentNummer() {
-        return studentNummer;
-    }
-
-    public void setStudentNummer(String studentNummer) {
-        this.studentNummer = studentNummer;
     }
 }

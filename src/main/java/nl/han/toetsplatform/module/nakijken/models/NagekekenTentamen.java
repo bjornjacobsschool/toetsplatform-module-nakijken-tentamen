@@ -5,6 +5,7 @@ import java.util.List;
 
 public class NagekekenTentamen {
     private String id;
+    private String studentNummer;
     private String naam;
     private String beschrijving;
     private String toegestaandeHulpmiddelen;
@@ -14,6 +15,7 @@ public class NagekekenTentamen {
     private boolean isVerzegeld;
     private String hash;
     private List<NagekekenVraag> nagekekenVragen;
+    private float cijfer;
 
     public NagekekenTentamen() {
         nagekekenVragen = new ArrayList<>();
@@ -97,5 +99,28 @@ public class NagekekenTentamen {
 
     public void setVak(String vak) {
         this.vak = vak;
+    }
+
+
+    public String getStudentNummer() {
+        return studentNummer;
+    }
+
+    public void setStudentNummer(String studentNummer) {
+        this.studentNummer = studentNummer;
+    }
+
+    public float getCijfer() {
+        return cijfer;
+    }
+
+    public void berekenCijfer(){
+        int totaalPunten = 0;
+        int behaaldePunten = 0;
+        for(NagekekenVraag n: nagekekenVragen){
+            totaalPunten+= n.getPunten();
+            behaaldePunten+= n.getGegevevenPunten();
+        }
+        this.cijfer = behaaldePunten/totaalPunten*10;
     }
 }
