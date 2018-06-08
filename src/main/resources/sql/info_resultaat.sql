@@ -1,0 +1,4 @@
+--where clause kan toegevoegd worden om filteren mogelijk te maken
+SELECT STUDENTNUMMER, TENTAMENCODE, TENTAMENVERSIE, CIJFER, BEOORDELENDEDOCENT, HASH
+FROM RESULTAAT
+WHERE ? = ?
