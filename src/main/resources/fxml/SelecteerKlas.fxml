@@ -19,7 +19,7 @@
         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
     </rowConstraints>
    <children>
-      <ListView prefHeight="200.0" prefWidth="200.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+      <ListView fx:id="tentamenListView" onMouseClicked="#handleListViewMouseClick" prefHeight="200.0" prefWidth="200.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
          <GridPane.margin>
             <Insets left="200.0" right="150.0" />
          </GridPane.margin>
@@ -34,12 +34,12 @@
             <Insets bottom="20.0" left="40.0" />
          </GridPane.margin>
       </Label>
-      <ListView prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+      <ListView fx:id="klasListView" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
          <GridPane.margin>
             <Insets left="150.0" right="200.0" />
          </GridPane.margin>
       </ListView>
-      <Button mnemonicParsing="false" text="Downloaden" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
+      <Button mnemonicParsing="false" onAction="#handleNakijkenButtonClick" text="Nakijken" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="TOP">
          <GridPane.margin>
             <Insets right="200.0" top="20.0" />
          </GridPane.margin>
