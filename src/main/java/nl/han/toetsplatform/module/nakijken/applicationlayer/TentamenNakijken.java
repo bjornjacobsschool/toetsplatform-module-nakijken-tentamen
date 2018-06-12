@@ -1,9 +1,9 @@
 package nl.han.toetsplatform.module.nakijken.applicationlayer;
 
-import nl.han.toetsplatform.module.nakijken.model.Klas;
-import nl.han.toetsplatform.module.nakijken.model.Tentamen;
-import nl.han.toetsplatform.module.nakijken.model.Versie;
-import nl.han.toetsplatform.module.nakijken.model.Vraag;
+import com.google.inject.Inject;
+import nl.han.toetsplatform.module.nakijken.exceptions.GatewayCommunicationException;
+import nl.han.toetsplatform.module.nakijken.model.*;
+import nl.han.toetsplatform.module.nakijken.serviceagent.IGatewayServiceAgent;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -12,9 +12,18 @@ import java.util.Date;
 import java.util.List;
 
 public class TentamenNakijken implements ITentamenNakijken {
+    private IGatewayServiceAgent serviceAgent;
+
     @Override
     public String getTestMessage() {
         return "Welkom";
+    }
+
+    @Override
+    public List<UitgevoerdTentamen> getUitgevoerdeTentamens() throws GatewayCommunicationException {
+        Class<List<UitgevoerdTentamen>> uitgevoerdeTentamensListClass = (Class) List.class;
+        List<UitgevoerdTentamen> uitgevoerdeTentamens = this.serviceAgent.get("tentamens/uitgevoerd", uitgevoerdeTentamensListClass);
+        return uitgevoerdeTentamens;
     }
 
     @Override
@@ -22,9 +31,24 @@ public class TentamenNakijken implements ITentamenNakijken {
         ArrayList<Tentamen> list = new ArrayList<>();
         ArrayList<Klas> AppKlassen = new ArrayList<Klas>();
         ArrayList<Klas> SwaKlassen = new ArrayList<Klas>();
-        AppKlassen.add(new Klas("ASD-A N"));
-        SwaKlassen.add(new Klas("ASD-A N"));
-        SwaKlassen.add(new Klas("ASD-B N"));
+        Klas ASDAN = new Klas("ASD-A N");
+        Klas ASDBN = new Klas("ASD-B N");
+        AppKlassen.add(ASDAN);
+        SwaKlassen.add(ASDAN);
+        SwaKlassen.add(ASDBN);
+
+        Student student1 = new Student("student1");
+        Student student2 = new Student("student2");
+        Student student3 = new Student("student3");
+        ArrayList<Student> studenten = new ArrayList<Student>();
+        studenten.add(student1);
+        studenten.add(student2);
+        studenten.add(student3);
+        ArrayList<Student> studenten2 = new ArrayList<Student>();
+        studenten2.add(student1);
+        studenten2.add(student2);
+        ASDAN.setStudenten(studenten);
+        ASDBN.setStudenten(studenten2);
 
         Tentamen tentamen1 = new Tentamen();
         tentamen1.setNaam("App Algorithmes 1");
@@ -78,10 +102,15 @@ public class TentamenNakijken implements ITentamenNakijken {
         tentamen.setGemaaktDoorKlassen(SwaKlassen);
         tentamen.setVersie(new Versie());
 
+        tentamen.setStudenten(studenten);
+        tentamen1.setStudenten(studenten2);
         list.add(tentamen1);
         list.add(tentamen);
         return list;
     }
 
-
+    @Inject
+    public TentamenNakijken(IGatewayServiceAgent serviceAgent) {
+        this.serviceAgent = serviceAgent;
+    }
 }

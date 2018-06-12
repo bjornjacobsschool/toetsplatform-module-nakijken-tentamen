@@ -5,7 +5,11 @@ package nl.han.toetsplatform.module.nakijken.model;
  */
 public class Student {
     private String naam;
-    private String studentNummer;
+    private int studentNummer;
+
+    public Student(String naam) {
+        this.naam = naam;
+    }
 
     public String getNaam() {
         return naam;
@@ -15,11 +19,11 @@ public class Student {
         this.naam = naam;
     }
 
-    public String getStudentNummer() {
+    public int getStudentNummer() {
         return studentNummer;
     }
 
-    public void setStudentNummer(String studentNummer) {
+    public void setStudentNummer(int studentNummer) {
         this.studentNummer = studentNummer;
     }
 }

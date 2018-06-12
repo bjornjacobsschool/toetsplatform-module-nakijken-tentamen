@@ -1,24 +1,25 @@
 package nl.han.toetsplatform.module.nakijken.model;
 
 
+import java.util.UUID;
+
 public class Vraag {
 
-    private String id;
+    private UUID id;
     private String naam;
     private String vraagType;
     private String thema;
     private Versie versie;
     private int punten;
     private String nakijkInstrucites;
-
     private String nakijkModel;
     private String vraagData;
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

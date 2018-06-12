@@ -3,12 +3,13 @@ package nl.han.toetsplatform.module.nakijken.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by chico_000 on 7-6-2018.
  */
 public class Tentamen {
-    private String id;
+    private UUID id;
     private String naam;
     private String beschrijving;
     private String toegestaandeHulpmiddelen;
@@ -19,6 +20,15 @@ public class Tentamen {
     private String hash;
     private List<Vraag> vragen;
     private List<Klas> gemaaktDoorKlassen;
+    private List<Student> studenten;
+
+    public List<Student> getStudenten() {
+        return studenten;
+    }
+
+    public void setStudenten(List<Student> studenten) {
+        this.studenten = studenten;
+    }
 
     public List<Klas> getGemaaktDoorKlassen() {
         return gemaaktDoorKlassen;
@@ -32,11 +42,11 @@ public class Tentamen {
         vragen = new ArrayList<>();
     }
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

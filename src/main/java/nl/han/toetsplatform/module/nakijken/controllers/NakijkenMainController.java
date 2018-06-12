@@ -9,6 +9,9 @@ import nl.han.toetsplatform.module.nakijken.applicationlayer.ITentamenNakijken;
 import nl.han.toetsplatform.module.nakijken.config.ConfigTentamenNakijkenModule;
 import nl.han.toetsplatform.module.nakijken.config.NakijkenTentamenFXMLFiles;
 import nl.han.toetsplatform.module.nakijken.model.Tentamen;
+import nl.han.toetsplatform.module.nakijken.model.UitgevoerdTentamen;
+import nl.han.toetsplatform.module.shared.plugin.Plugin;
+import nl.han.toetsplatform.module.shared.plugin.PluginLoader;
 
 import java.io.IOException;
 import java.util.List;
@@ -43,7 +46,7 @@ public class NakijkenMainController {
         switchView(selecteerKlasView);
     }
 
-    private void handleKlasSelectie(List<Tentamen> list) {
+    private void handleKlasSelectie(List<UitgevoerdTentamen> uitgevoerdeTentamens) {
         try {
             tentamenNakijkenView = fxmlLoader.load(ConfigTentamenNakijkenModule.getFXMLTentamenNakijken(NakijkenTentamenFXMLFiles.TentamenNakijken));
         } catch (IOException e) {
@@ -51,7 +54,8 @@ public class NakijkenMainController {
         }
         switchView(tentamenNakijkenView);
         TentamenNakijkenController tentamenNakijkenController = tentamenNakijkenView.getController();
-        tentamenNakijkenController.setNaTeKijkenTentamens(list);
+        tentamenNakijkenController.setNaTeKijkenTentamen(uitgevoerdeTentamens);
+        tentamenNakijkenController.setStudentenListView();
         tentamenNakijkenController.setOnTerugClick(this::handleTentamenTerugClick);
     }
 

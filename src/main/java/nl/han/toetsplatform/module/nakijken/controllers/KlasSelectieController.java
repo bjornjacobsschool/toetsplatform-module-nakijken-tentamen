@@ -9,8 +9,8 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import nl.han.toetsplatform.module.nakijken.applicationlayer.ITentamenNakijken;
-import nl.han.toetsplatform.module.nakijken.model.Klas;
-import nl.han.toetsplatform.module.nakijken.model.Tentamen;
+import nl.han.toetsplatform.module.nakijken.exceptions.GatewayCommunicationException;
+import nl.han.toetsplatform.module.nakijken.model.*;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -37,11 +37,11 @@ public class KlasSelectieController {
 
     private ObservableList<Klas> klasListData = FXCollections.observableArrayList();
 
-    public void setOnSelectieNakijken(Consumer<List<Tentamen>> onSelectieNakijken) {
+    public void setOnSelectieNakijken(Consumer<List<UitgevoerdTentamen>> onSelectieNakijken) {
         this.onSelectieNakijken = onSelectieNakijken;
     }
 
-    private Consumer<List<Tentamen>> onSelectieNakijken;
+    private Consumer<List<UitgevoerdTentamen>> onSelectieNakijken;
 
     @Inject
     public KlasSelectieController(ITentamenNakijken tentamenNakijken) {
@@ -50,6 +50,7 @@ public class KlasSelectieController {
 
     @FXML
     public void initialize() {
+
         tentamenListData.addAll(this.tentamenNakijken.getTentamens());
         tentamenListView.setItems(tentamenListData);
         tentamenListView.setCellFactory(param -> new ListCell<Tentamen>() {
@@ -68,9 +69,35 @@ public class KlasSelectieController {
 
     @FXML
     public void handleNakijkenButtonClick(ActionEvent actionEvent) throws IOException{
-        ArrayList<Tentamen> gemaakteTentamens = new ArrayList<Tentamen>();
-        gemaakteTentamens.add(tentamenListView.getSelectionModel().getSelectedItem());
-        runIfNotNull(onSelectieNakijken, gemaakteTentamens);
+        //getcall naar gateway voor een lijst van uitgevoerde tentamens
+        List<UitgevoerdTentamen> uitgevoerdeTentamens = new ArrayList<UitgevoerdTentamen>();
+        try {
+            uitgevoerdeTentamens.addAll(this.tentamenNakijken.getUitgevoerdeTentamens());
+        } catch (GatewayCommunicationException e) {
+            e.printStackTrace();
+        }
+//        Student student1 = new Student("student1");
+//        Student student2 = new Student("student2");
+//        Student student3 = new Student("student3");
+//        List<UitgevoerdTentamen> tentamens = new ArrayList<UitgevoerdTentamen>();
+//        UitgevoerdTentamen tentamen1 = new UitgevoerdTentamen(student1);
+//        UitgevoerdTentamen tentamen2 = new UitgevoerdTentamen(student2);
+//        UitgevoerdTentamen tentamen3 = new UitgevoerdTentamen(student3);
+//        tentamens.add(tentamen1);
+//        tentamens.add(tentamen2);
+//        tentamens.add(tentamen3);
+//        IngevuldeVraag vraag1 = new IngevuldeVraag("ja");
+//        IngevuldeVraag vraag2 = new IngevuldeVraag("nee");
+//        IngevuldeVraag vraag3 = new IngevuldeVraag("Jeen");
+//        List<IngevuldeVraag> vragen = new ArrayList<IngevuldeVraag>();
+//        vragen.add(vraag1);
+//        vragen.add(vraag2);
+//        vragen.add(vraag3);
+//        tentamen1.setVragen(vragen);
+//        tentamen2.setVragen(vragen);
+//        tentamen3.setVragen(vragen);
+
+        runIfNotNull(onSelectieNakijken, uitgevoerdeTentamens);
     }
 
     @FXML
