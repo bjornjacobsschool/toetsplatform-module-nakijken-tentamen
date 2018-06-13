@@ -16,6 +16,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import javax.inject.Inject;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -30,12 +32,16 @@ public class TentamenNakijkenTests {
     @Mock
     private TentamenDAO _tentamenDAOMock;
 
+    @Mock
+    private List<NagekekenTentamen> nagekekenTentamens;
+
     @InjectMocks
     private TentamenNakijken _sut;
 
     @Before
     public void initialize()throws SQLException{
         nagekekenTentamen = Mockito.spy(new NagekekenTentamen());
+        nagekekenTentamens = new ArrayList<>();
     }
 
     @Test
@@ -49,5 +55,18 @@ public class TentamenNakijkenTests {
     public void opslaanShouldCallExecuteQueryOnStorageDao() throws GatewayCommunicationException, SQLException {
         _sut.opslaan(nagekekenTentamen);
         verify(_tentamenDAOMock).slaNagekekenTentamenOp(nagekekenTentamen);
+    }
+
+    @Test
+    public void ophalenShouldCallGetOnGatewayServiceAgentWithCorrectParameter() throws GatewayCommunicationException, SQLException {
+        _sut.ophalen("toets", "2a", "asd b-n");
+        verify(_gatewayServiceAgentMock, times(1))
+                .get("", nagekekenTentamens.getClass());
+    }
+
+    @Test
+    public void ophalenShouldCallExecuteQueryOnStorageDao() throws GatewayCommunicationException, SQLException {
+        _sut.ophalen("toets", "2a", "asd b-n");
+        verify(_tentamenDAOMock).setNaTeKijkenTentamens(_gatewayServiceAgentMock.get("", nagekekenTentamens.getClass()));
     }
 }

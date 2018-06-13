@@ -1,6 +1,5 @@
 package nl.han.toetsplatform.module.nakijken.applicationlayer;
 
-import com.owlike.genson.GenericType;
 import nl.han.toetsplatform.module.nakijken.data.TentamenDAO;
 import nl.han.toetsplatform.module.nakijken.exceptions.GatewayCommunicationException;
 import nl.han.toetsplatform.module.nakijken.models.NagekekenTentamen;
