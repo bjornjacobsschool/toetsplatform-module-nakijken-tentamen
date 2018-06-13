@@ -1,10 +1,10 @@
 package nl.han.toetsplatform.module.nakijken.applicationLayer;
 
 
+import nl.han.toetsapplicatie.apimodels.dto.NagekekenTentamenDto;
 import nl.han.toetsplatform.module.nakijken.applicationlayer.TentamenNakijken;
 import nl.han.toetsplatform.module.nakijken.data.TentamenDAO;
 import nl.han.toetsplatform.module.nakijken.exceptions.GatewayCommunicationException;
-import nl.han.toetsplatform.module.nakijken.models.NagekekenTentamen;
 import nl.han.toetsplatform.module.nakijken.serviceagent.IGatewayServiceAgent;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +14,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import javax.inject.Inject;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +23,6 @@ import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TentamenNakijkenTests {
-    private NagekekenTentamen nagekekenTentamen;
 
     @Mock
     private IGatewayServiceAgent _gatewayServiceAgentMock;
@@ -33,14 +31,17 @@ public class TentamenNakijkenTests {
     private TentamenDAO _tentamenDAOMock;
 
     @Mock
-    private List<NagekekenTentamen> nagekekenTentamens;
+    private List<NagekekenTentamenDto> nagekekenTentamens;
+
+    @Mock
+    private NagekekenTentamenDto nagekekenTentamen;
 
     @InjectMocks
     private TentamenNakijken _sut;
 
     @Before
     public void initialize()throws SQLException{
-        nagekekenTentamen = Mockito.spy(new NagekekenTentamen());
+        nagekekenTentamen = Mockito.spy(new NagekekenTentamenDto());
         nagekekenTentamens = new ArrayList<>();
     }
 
@@ -48,7 +49,7 @@ public class TentamenNakijkenTests {
     public void opslaanShouldCallGetOnGatewayServiceAgentWithCorrectParameter() throws GatewayCommunicationException, SQLException {
         _sut.opslaan(nagekekenTentamen);
         verify(_gatewayServiceAgentMock, times(1))
-                .post("", nagekekenTentamen);
+                .post("/tentamens/nagekeken", nagekekenTentamen);
     }
 
     @Test
@@ -59,14 +60,14 @@ public class TentamenNakijkenTests {
 
     @Test
     public void ophalenShouldCallGetOnGatewayServiceAgentWithCorrectParameter() throws GatewayCommunicationException, SQLException {
-        _sut.ophalen("toets", "2a", "asd b-n");
+        _sut.ophalen();
         verify(_gatewayServiceAgentMock, times(1))
-                .get("", nagekekenTentamens.getClass());
+                .get("/tentamens/uitgevoerd", nagekekenTentamens.getClass());
     }
 
     @Test
     public void ophalenShouldCallExecuteQueryOnStorageDao() throws GatewayCommunicationException, SQLException {
-        _sut.ophalen("toets", "2a", "asd b-n");
-        verify(_tentamenDAOMock).setNaTeKijkenTentamens(_gatewayServiceAgentMock.get("", nagekekenTentamens.getClass()));
+        _sut.ophalen();
+        verify(_tentamenDAOMock).setNaTeKijkenTentamens(_gatewayServiceAgentMock.get("/tentamens/uitgevoerd", nagekekenTentamens.getClass()));
     }
 }

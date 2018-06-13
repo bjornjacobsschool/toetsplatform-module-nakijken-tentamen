@@ -136,5 +136,11 @@
             <artifactId>toetsplatform-module-shared</artifactId>
             <version>feature~FECLYK-697-dao-overzetten-naar-module-gebruikmakend-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.bjornjacobsschool</groupId>
+            <artifactId>toetsplatform-api-models</artifactId>
+            <version>master-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>

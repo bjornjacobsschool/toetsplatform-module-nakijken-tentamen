@@ -1,14 +1,14 @@
 package nl.han.toetsplatform.module.nakijken.data;
 
-import nl.han.toetsplatform.module.nakijken.models.NagekekenTentamen;
+import nl.han.toetsapplicatie.apimodels.dto.NagekekenTentamenDto;
 
 import java.util.List;
 
 public interface TentamenDAO {
 
-    List<NagekekenTentamen> getNaTeKijkenTentamens(String vak);
+    List<NagekekenTentamenDto> getNaTeKijkenTentamens(String vak);
 
-    void slaNagekekenTentamenOp(NagekekenTentamen nagekekenTentamen);
+    void slaNagekekenTentamenOp(NagekekenTentamenDto nagekekenTentamen);
 
-    void setNaTeKijkenTentamens(List<NagekekenTentamen> naTeKijkenTentamens);
+    void setNaTeKijkenTentamens(List<NagekekenTentamenDto> naTeKijkenTentamens);
 }

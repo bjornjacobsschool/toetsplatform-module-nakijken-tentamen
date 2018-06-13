@@ -1,8 +1,8 @@
 package nl.han.toetsplatform.module.nakijken.applicationlayer;
 
+import nl.han.toetsapplicatie.apimodels.dto.NagekekenTentamenDto;
 import nl.han.toetsplatform.module.nakijken.data.TentamenDAO;
 import nl.han.toetsplatform.module.nakijken.exceptions.GatewayCommunicationException;
-import nl.han.toetsplatform.module.nakijken.models.NagekekenTentamen;
 import nl.han.toetsplatform.module.nakijken.serviceagent.IGatewayServiceAgent;
 
 import javax.inject.Inject;
@@ -22,25 +22,16 @@ public class TentamenNakijken implements ITentamenNakijken {
     }
 
     @Override
-    public void opslaan(NagekekenTentamen nagekekenTentamen) throws GatewayCommunicationException, SQLException {
+    public void opslaan(NagekekenTentamenDto nagekekenTentamen) throws GatewayCommunicationException, SQLException {
         _tentamenDAO.slaNagekekenTentamenOp(nagekekenTentamen);
-
-        //Tentamen versturen naar gateway
-        //todo URL specificeren, gateway moet nog gemaakt worden.
-        this._gatewayServiceAgent.post("", nagekekenTentamen);
+        this._gatewayServiceAgent.post("/tentamens/nagekeken", nagekekenTentamen);
         System.out.println("gecommuniceerd met de gateway");
     }
 
     @Override
-    public void ophalen(String toets, String versieNummer, String klas) throws GatewayCommunicationException, SQLException {
-        List<NagekekenTentamen> nagekekenTentamens = new ArrayList<>();
-        //Tentamens ophalen via gateway
-        //todo URL specificeren, gateway moet nog gemaakt worden.
-        _tentamenDAO.setNaTeKijkenTentamens(this._gatewayServiceAgent.get("", nagekekenTentamens.getClass()));
-    }
-
-    @Override
-    public String getTestMessage() {
-        return "Welkom";
+    public void ophalen() throws GatewayCommunicationException, SQLException {
+        List<NagekekenTentamenDto> nagekekenTentamens = new ArrayList<>();
+        //TODO url
+        _tentamenDAO.setNaTeKijkenTentamens(this._gatewayServiceAgent.get("/tentamens/uitgevoerd", nagekekenTentamens.getClass()));
     }
 }

@@ -1,16 +1,14 @@
 package nl.han.toetsplatform.module.nakijken.applicationlayer;
 
+import nl.han.toetsapplicatie.apimodels.dto.NagekekenTentamenDto;
 import nl.han.toetsplatform.module.nakijken.exceptions.GatewayCommunicationException;
-import nl.han.toetsplatform.module.nakijken.models.NagekekenTentamen;
 
 import java.sql.SQLException;
-import java.util.List;
 
 public interface ITentamenNakijken {
 
-    void opslaan(NagekekenTentamen nagekekenTentamen) throws GatewayCommunicationException, SQLException;
+    void opslaan(NagekekenTentamenDto nagekekenTentamen) throws GatewayCommunicationException, SQLException;
 
-    void ophalen(String toets, String versieNummer, String klas) throws GatewayCommunicationException, SQLException;
+    void ophalen() throws GatewayCommunicationException, SQLException;
 
-    String getTestMessage();
 }
