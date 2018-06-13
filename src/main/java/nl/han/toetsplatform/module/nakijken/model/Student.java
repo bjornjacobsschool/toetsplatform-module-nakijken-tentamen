@@ -1,11 +1,9 @@
 package nl.han.toetsplatform.module.nakijken.model;
 
-/**
- * Created by chico_000 on 7-6-2018.
- */
 public class Student {
     private String naam;
     private String studentNummer;
+    private String klas;
 
     public String getNaam() {
         return naam;
@@ -21,5 +19,13 @@ public class Student {
 
     public void setStudentNummer(String studentNummer) {
         this.studentNummer = studentNummer;
+    }
+
+    public String getKlas() {
+        return klas;
+    }
+
+    public void setKlas(String klas) {
+        this.klas = klas;
     }
 }

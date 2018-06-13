@@ -1,114 +1,143 @@
 package nl.han.toetsplatform.module.nakijken.model;
 
 
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
-/**
- * Created by chico_000 on 7-6-2018.
- */
 public class Tentamen {
-    private String id;
-    private String naam;
-    private String beschrijving;
-    private String toegestaandeHulpmiddelen;
-    private String vak;
-    private int tijdsduur;
-    private Versie versie;
-    private boolean isVerzegeld;
-    private String hash;
-    private List<Vraag> vragen;
-    private List<Klas> gemaaktDoorKlassen;
+    private String tentamenCode;
+    private String tentamenVersie;
+    private String tentamenMomentId;
+    private String tentamenNaam;
+    private Time tentamenTijdsduur;
+    private Date tentamenKlaarzetDatum;
+    private Timestamp tentamenVersieDatum;
+    private String tentamenVersieOmschrijving;
+//    private String toegestaandeHulpmiddelen;
+//    private String vak;
+//
+//    private boolean isVerzegeld;
+//    private String hash;
+//    private List<Vraag> vragen;
+//    private List<Klas> gemaaktDoorKlassen;
 
-    public List<Klas> getGemaaktDoorKlassen() {
-        return gemaaktDoorKlassen;
+
+//    public List<Klas> getGemaaktDoorKlassen() {
+//        return gemaaktDoorKlassen;
+//    }
+//
+//    public void setGemaaktDoorKlassen(List<Klas> gemaaktDoorKlassen) {
+//        this.gemaaktDoorKlassen = gemaaktDoorKlassen;
+//    }
+//
+//    public Tentamen() {
+//        vragen = new ArrayList<>();
+//    }
+
+    public String getTentamenCode() {
+        return tentamenCode;
     }
 
-    public void setGemaaktDoorKlassen(List<Klas> gemaaktDoorKlassen) {
-        this.gemaaktDoorKlassen = gemaaktDoorKlassen;
+    public void setTentamenCode(String tentamenCode) {
+        this.tentamenCode = tentamenCode;
     }
 
-    public Tentamen() {
-        vragen = new ArrayList<>();
+    public String getTentamenNaam() {
+        return tentamenNaam;
     }
 
-    public String getId() {
-        return id;
+    public void setTentamenNaam(String tentamenNaam) {
+        this.tentamenNaam = tentamenNaam;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public String getTentamenVersieOmschrijving() {
+        return tentamenVersieOmschrijving;
     }
 
-    public String getNaam() {
-        return naam;
+    public void setTentamenVersieOmschrijving(String tentamenVersieOmschrijving) {
+        this.tentamenVersieOmschrijving = tentamenVersieOmschrijving;
     }
 
-    public void setNaam(String naam) {
-        this.naam = naam;
+//    public String getToegestaandeHulpmiddelen() {
+//        return toegestaandeHulpmiddelen;
+//    }
+//
+//    public void setToegestaandeHulpmiddelen(String toegestaandeHulpmiddelen) {
+//        this.toegestaandeHulpmiddelen = toegestaandeHulpmiddelen;
+//    }
+
+    public Time getTentamenTijdsduur() {
+        return tentamenTijdsduur;
     }
 
-    public String getBeschrijving() {
-        return beschrijving;
+    public void setTentamenTijdsduur(Time tentamenTijdsduur) {
+        this.tentamenTijdsduur = tentamenTijdsduur;
     }
 
-    public void setBeschrijving(String beschrijving) {
-        this.beschrijving = beschrijving;
+    public String getTentamenVersie() {
+        return tentamenVersie;
     }
 
-    public String getToegestaandeHulpmiddelen() {
-        return toegestaandeHulpmiddelen;
+    public void setTentamenVersie(String tentamenVersie) {
+        this.tentamenVersie = tentamenVersie;
     }
 
-    public void setToegestaandeHulpmiddelen(String toegestaandeHulpmiddelen) {
-        this.toegestaandeHulpmiddelen = toegestaandeHulpmiddelen;
+    public String getTentamenMomentId() {
+        return tentamenMomentId;
     }
 
-    public int getTijdsduur() {
-        return tijdsduur;
+    public void setTentamenMomentId(String tentamenMomentId) {
+        this.tentamenMomentId = tentamenMomentId;
     }
 
-    public void setTijdsduur(int tijdsduur) {
-        this.tijdsduur = tijdsduur;
+    public Date getTentamenKlaarzetDatum() {
+        return tentamenKlaarzetDatum;
     }
 
-    public Versie getVersie() {
-        return versie;
+    public void setTentamenKlaarzetDatum(Date tentamenKlaarzetDatum) {
+        this.tentamenKlaarzetDatum = tentamenKlaarzetDatum;
     }
 
-    public void setVersie(Versie versie) {
-        this.versie = versie;
+    public Timestamp getTentamenVersieDatum() {
+        return tentamenVersieDatum;
     }
 
-    public boolean isVerzegeld() {
-        return isVerzegeld;
+    public void setTentamenVersieDatum(Timestamp tentamenVersieDatum) {
+        this.tentamenVersieDatum = tentamenVersieDatum;
     }
 
-    public void setVerzegeld(boolean verzegeld) {
-        isVerzegeld = verzegeld;
-    }
-
-    public String getHash() {
-        return hash;
-    }
-
-    public void setHash(String hash) {
-        this.hash = hash;
-    }
-
-    public List<Vraag> getVragen() {
-        return vragen;
-    }
-
-    public void setVragen(List<Vraag> vragen) {
-        this.vragen = vragen;
-    }
-
-    public String getVak() {
-        return vak;
-    }
-
-    public void setVak(String vak) {
-        this.vak = vak;
-    }
+    //    public boolean isVerzegeld() {
+//        return isVerzegeld;
+//    }
+//
+//    public void setVerzegeld(boolean verzegeld) {
+//        isVerzegeld = verzegeld;
+//    }
+//
+//    public String getHash() {
+//        return hash;
+//    }
+//
+//    public void setHash(String hash) {
+//        this.hash = hash;
+//    }
+//
+//    public List<Vraag> getVragen() {
+//        return vragen;
+//    }
+//
+//    public void setVragen(List<Vraag> vragen) {
+//        this.vragen = vragen;
+//    }
+//
+//    public String getVak() {
+//        return vak;
+//    }
+//
+//    public void setVak(String vak) {
+//        this.vak = vak;
+//    }
 }

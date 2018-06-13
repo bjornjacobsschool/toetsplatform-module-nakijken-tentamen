@@ -1,42 +1,55 @@
 package nl.han.toetsplatform.module.nakijken.model;
 
 
+import java.sql.Timestamp;
+
 public class Vraag {
 
-    private String id;
-    private String naam;
-    private String vraagType;
+    private String vraagId;
+    private String vraagVersie;
     private String thema;
-    private Versie versie;
-    private int punten;
-    private String nakijkInstrucites;
+    private String nakijkModelVersie;
+    private String   vraagStelling;
+    private String   vraagPlugin;
+    private boolean   vraagOefenvraag;
+    private String   vraagGemaaktDoor;
+    private Timestamp vraagVersieDatum;
+    private String   vraagVersieOmschrijving;
 
-    private String nakijkModel;
-    private String vraagData;
 
-    public String getId() {
-        return id;
+
+//    private String naam;
+//    private String vraagType;
+
+//    private String vraagData;
+    //private int punten;
+   // private String nakijkInstrucites;
+
+
+
+    public String getVraagId() {
+        return vraagId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setVraagId(String vraagId) {
+        this.vraagId = vraagId;
     }
 
-    public String getNaam() {
-        return naam;
-    }
-
-    public void setNaam(String naam) {
-        this.naam = naam;
-    }
-
-    public String getVraagType() {
-        return vraagType;
-    }
-
-    public void setVraagType(String vraagType) {
-        this.vraagType = vraagType;
-    }
+//    public String getNaam() {
+//        return naam;
+//    }
+//
+//    public void setNaam(String naam) {
+//        this.naam = naam;
+//    }
+//
+//    public String getVraagType() {
+//        return vraagType;
+//    }
+//
+//    public void setVraagType(String vraagType) {
+//        this.vraagType = vraagType;
+//    }
 
     public String getThema() {
         return thema;
@@ -46,43 +59,92 @@ public class Vraag {
         this.thema = thema;
     }
 
-    public Versie getVersie() {
-        return versie;
+    public String getVraagVersie() {
+        return vraagVersie;
     }
 
-    public void setVersie(Versie versie) {
-        this.versie = versie;
+    public void setVraagVersie(String vraagVersie) {
+        this.vraagVersie = vraagVersie;
+    }
+//
+//    public int getPunten() {
+//        return punten;
+//    }
+//
+//    public void setPunten(int punten) {
+//        this.punten = punten;
+//    }
+
+//    public String getNakijkInstrucites() {
+//        return nakijkInstrucites;
+//    }
+//
+//    public void setNakijkInstrucites(String nakijkInstrucites) {
+//        this.nakijkInstrucites = nakijkInstrucites;
+//    }
+
+    public String getNakijkModelVersie() {
+        return nakijkModelVersie;
     }
 
-    public int getPunten() {
-        return punten;
+    public void setNakijkModelVersie(String nakijkModelVersie) {
+        this.nakijkModelVersie = nakijkModelVersie;
     }
 
-    public void setPunten(int punten) {
-        this.punten = punten;
+//    public String getVraagData() {
+//        return vraagData;
+//    }
+//
+//    public void setVraagData(String vraagData) {
+//        this.vraagData = vraagData;
+//    }
+
+
+    public String getVraagStelling() {
+        return vraagStelling;
     }
 
-    public String getNakijkInstrucites() {
-        return nakijkInstrucites;
+    public void setVraagStelling(String vraagStelling) {
+        this.vraagStelling = vraagStelling;
     }
 
-    public void setNakijkInstrucites(String nakijkInstrucites) {
-        this.nakijkInstrucites = nakijkInstrucites;
+    public String getVraagPlugin() {
+        return vraagPlugin;
     }
 
-    public String getNakijkModel() {
-        return nakijkModel;
+    public void setVraagPlugin(String vraagPlugin) {
+        this.vraagPlugin = vraagPlugin;
     }
 
-    public void setNakijkModel(String nakijkModel) {
-        this.nakijkModel = nakijkModel;
+    public boolean isVraagOefenvraag() {
+        return vraagOefenvraag;
     }
 
-    public String getVraagData() {
-        return vraagData;
+    public void setVraagOefenvraag(boolean vraagOefenvraag) {
+        this.vraagOefenvraag = vraagOefenvraag;
     }
 
-    public void setVraagData(String vraagData) {
-        this.vraagData = vraagData;
+    public String getVraagGemaaktDoor() {
+        return vraagGemaaktDoor;
+    }
+
+    public void setVraagGemaaktDoor(String vraagGemaaktDoor) {
+        this.vraagGemaaktDoor = vraagGemaaktDoor;
+    }
+
+    public Timestamp getVraagVersieDatum() {
+        return vraagVersieDatum;
+    }
+
+    public void setVraagVersieDatum(Timestamp vraagVersieDatum) {
+        this.vraagVersieDatum = vraagVersieDatum;
+    }
+
+    public String getVraagVersieOmschrijving() {
+        return vraagVersieOmschrijving;
+    }
+
+    public void setVraagVersieOmschrijving(String vraagVersieOmschrijving) {
+        this.vraagVersieOmschrijving = vraagVersieOmschrijving;
     }
 }

@@ -11,7 +11,7 @@ create table ANTWOORD_OP_VRAAG
   TENTAMENVERSIE       varchar(10)                    not null,
   ANTWOORD             long varchar                   not null,
   BEHAALDEPUNTEN       float                          null,
-  NAKIJKCOMMENT        varchar(1024)                  null,
+  NAKIJKCOMMENT        varchar(2048)                  null,
   constraint PK_ANTWOORD_OP_VRAAG primary key (VRAAGID, VRAAGVERSIE, STUDENTNUMMER, TENTAMENCODE, TENTAMENVERSIE),
   foreign key(STUDENTNUMMER, TENTAMENCODE, TENTAMENVERSIE)
   references RESULTAAT (STUDENTNUMMER, TENTAMENCODE, TENTAMENVERSIE)
@@ -124,6 +124,7 @@ create table STUDENT
 (
   STUDENTNUMMER        varchar(6)                            not null,
   KLAS                 varchar(100)                   null,
+  STUDENTNAAM           varchar(100)                  NULL,
   constraint PK_STUDENT primary key (STUDENTNUMMER)
 );
 
@@ -134,12 +135,17 @@ create table TENTAMEN
 (
   TENTAMENCODE         varchar(255)                   not null,
   TENTAMENVERSIE       varchar(10)                    not null,
+  TENTAMENMOMENTID      varchar                       null,
   TENTAMENNAAM         long varchar                   not null,
   TENTAMENTIJDSDUUR    time                           not null,
   TENTAMENKLAARZETDATUM date                           null,
   TENTAMENVERSIEDATUM  timestamp                      not null,
   TENTAMENVERSIEOMSCHRIJVING varchar(1024)                  null,
-  constraint PK_TENTAMEN primary key (TENTAMENCODE, TENTAMENVERSIE)
+  constraint PK_TENTAMEN primary key (TENTAMENCODE, TENTAMENVERSIE),
+  foreign key (TENTAMENMOMENTID)
+  references TENTAMEN_MOMENT (TENTAMENMOMENTID)
+    on update cascade
+    on delete restrict
 );
 
 /*==============================================================*/
@@ -165,11 +171,7 @@ create table TENTAMEN_MOMENT
   TENTAMENMOMENTSLEUTEL varchar(100)                   not null,
   TENTAMENMOMENTTOEGESTANEHULPMIDDELEN varchar(512)                   not null,
   TENTAMENMOMENTBIJZONDERHEDEN varchar(512)                   null,
-  constraint PK_TENTAMEN_MOMENT primary key (TENTAMENMOMENTID),
-  foreign key (TENTAMENCODE, TENTAMENVERSIENUMMER)
-  references TENTAMEN (TENTAMENCODE, TENTAMENVERSIE)
-    on update cascade
-    on delete restrict
+  constraint PK_TENTAMEN_MOMENT primary key (TENTAMENMOMENTID)
 
 );
 
@@ -184,8 +186,7 @@ create unique index TENTAMEN_MOMENT_PK on TENTAMEN_MOMENT (
 /* Index: TENTAMEN_MOMENT_VAN_TENTAMEN_FK                       */
 /*==============================================================*/
 create index TENTAMEN_MOMENT_VAN_TENTAMEN_FK on TENTAMEN_MOMENT (
-  TENTAMENCODE ASC,
-  TENTAMENVERSIENUMMER ASC
+  TENTAMENMOMENTID ASC
 );
 
 /*==============================================================*/
