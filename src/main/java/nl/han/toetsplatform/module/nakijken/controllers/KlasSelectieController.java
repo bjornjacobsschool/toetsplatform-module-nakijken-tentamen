@@ -8,12 +8,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
+import nl.han.toetsapplicatie.apimodels.dto.UitgevoerdTentamenDto;
 import nl.han.toetsplatform.module.nakijken.applicationlayer.ITentamenNakijken;
 import nl.han.toetsplatform.module.nakijken.exceptions.GatewayCommunicationException;
-import nl.han.toetsplatform.module.nakijken.model.*;
 
 import javax.inject.Inject;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -28,20 +29,20 @@ public class KlasSelectieController {
     private ITentamenNakijken tentamenNakijken;
 
     @FXML
-    private ListView<Tentamen> tentamenListView;
+    private ListView<String> tentamenListView;
 
     @FXML
-    private ListView<Klas> klasListView;
+    private ListView<String> klasListView;
 
-    private ObservableList<Tentamen> tentamenListData = FXCollections.observableArrayList();
+    private ObservableList<UitgevoerdTentamenDto> tentamenListData = FXCollections.observableArrayList();
 
-    private ObservableList<Klas> klasListData = FXCollections.observableArrayList();
+    private ObservableList<String> klasListData = FXCollections.observableArrayList();
 
-    public void setOnSelectieNakijken(Consumer<List<UitgevoerdTentamen>> onSelectieNakijken) {
+    public void setOnSelectieNakijken(Consumer<List<UitgevoerdTentamenDto>> onSelectieNakijken) {
         this.onSelectieNakijken = onSelectieNakijken;
     }
 
-    private Consumer<List<UitgevoerdTentamen>> onSelectieNakijken;
+    private Consumer<List<UitgevoerdTentamenDto>> onSelectieNakijken;
 
     @Inject
     public KlasSelectieController(ITentamenNakijken tentamenNakijken) {
@@ -50,72 +51,63 @@ public class KlasSelectieController {
 
     @FXML
     public void initialize() {
+        try {
+            tentamenListData.addAll(this.tentamenNakijken.getUitgevoerdeTentamens());
+        } catch (GatewayCommunicationException e) {
+            e.printStackTrace();
+        }
+        tentamenListView.setItems(filterTentamens(tentamenListData));
 
-        tentamenListData.addAll(this.tentamenNakijken.getTentamens());
-        tentamenListView.setItems(tentamenListData);
-        tentamenListView.setCellFactory(param -> new ListCell<Tentamen>() {
-            @Override
-            protected void updateItem(Tentamen item, boolean empty) {
-                super.updateItem(item, empty);
-
-                if (empty || item == null || item.getNaam() == null) {
-                    setText(null);
-                } else {
-                    setText(item.getNaam());
-                }
-            }
-        });
     }
 
     @FXML
     public void handleNakijkenButtonClick(ActionEvent actionEvent) throws IOException{
-        //getcall naar gateway voor een lijst van uitgevoerde tentamens
-        List<UitgevoerdTentamen> uitgevoerdeTentamens = new ArrayList<UitgevoerdTentamen>();
-        try {
-            uitgevoerdeTentamens.addAll(this.tentamenNakijken.getUitgevoerdeTentamens());
-        } catch (GatewayCommunicationException e) {
-            e.printStackTrace();
-        }
-//        Student student1 = new Student("student1");
-//        Student student2 = new Student("student2");
-//        Student student3 = new Student("student3");
-//        List<UitgevoerdTentamen> tentamens = new ArrayList<UitgevoerdTentamen>();
-//        UitgevoerdTentamen tentamen1 = new UitgevoerdTentamen(student1);
-//        UitgevoerdTentamen tentamen2 = new UitgevoerdTentamen(student2);
-//        UitgevoerdTentamen tentamen3 = new UitgevoerdTentamen(student3);
-//        tentamens.add(tentamen1);
-//        tentamens.add(tentamen2);
-//        tentamens.add(tentamen3);
-//        IngevuldeVraag vraag1 = new IngevuldeVraag("ja");
-//        IngevuldeVraag vraag2 = new IngevuldeVraag("nee");
-//        IngevuldeVraag vraag3 = new IngevuldeVraag("Jeen");
-//        List<IngevuldeVraag> vragen = new ArrayList<IngevuldeVraag>();
-//        vragen.add(vraag1);
-//        vragen.add(vraag2);
-//        vragen.add(vraag3);
-//        tentamen1.setVragen(vragen);
-//        tentamen2.setVragen(vragen);
-//        tentamen3.setVragen(vragen);
-
-        runIfNotNull(onSelectieNakijken, uitgevoerdeTentamens);
+        runIfNotNull(onSelectieNakijken, filterOpKlasEnTentamen());
     }
 
     @FXML
     public void handleListViewMouseClick(MouseEvent event) {
         klasListView.getItems().clear();
-        klasListData.addAll(tentamenListView.getSelectionModel().getSelectedItem().getGemaaktDoorKlassen());
+        klasListData.addAll(filterKlas(tentamenListView.getSelectionModel().getSelectedItem()));
         klasListView.setItems(klasListData);
-        klasListView.setCellFactory(param -> new ListCell<Klas>() {
-            @Override
-            protected void updateItem(Klas item, boolean empty) {
-                super.updateItem(item, empty);
+    }
 
-                if (empty || item == null || item.getNaam() == null) {
-                    setText(null);
-                } else {
-                    setText(item.getNaam());
+    public ObservableList<String> filterTentamens(List<UitgevoerdTentamenDto> listToFilter) {
+        ObservableList<String> filteredList = FXCollections.observableArrayList();
+        for (UitgevoerdTentamenDto tentamen: listToFilter) {
+            if (!filteredList.contains(tentamen.getNaam())) {
+                filteredList.add(tentamen.getNaam());
+            }
+        }
+
+        return filteredList;
+    }
+
+    public ObservableList<String> filterKlas (String selectedItem) {
+        ObservableList<String> filteredList = FXCollections.observableArrayList();
+        for (UitgevoerdTentamenDto tentamenDto: this.tentamenListData) {
+            if (selectedItem.equals(tentamenDto.getNaam())) {
+                if (!filteredList.contains(tentamenDto.getStudent().getKlas())){
+                    filteredList.add(tentamenDto.getStudent().getKlas());
                 }
             }
-        });
+        }
+
+        return filteredList;
+    }
+
+    public List<UitgevoerdTentamenDto> filterOpKlasEnTentamen() {
+        String tentamen = this.tentamenListView.getSelectionModel().getSelectedItem();
+        String klas = this.klasListView.getSelectionModel().getSelectedItem();
+
+        ArrayList<UitgevoerdTentamenDto> filteredTentamens = new ArrayList<UitgevoerdTentamenDto>();
+
+        for (UitgevoerdTentamenDto tentamenDto: this.tentamenListData) {
+            if (tentamenDto.getNaam().equals(tentamen) && tentamenDto.getStudent().getKlas().equals(klas)) {
+                filteredTentamens.add(tentamenDto);
+            }
+        }
+
+        return filteredTentamens;
     }
 }

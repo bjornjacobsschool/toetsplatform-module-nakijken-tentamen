@@ -3,15 +3,11 @@ package nl.han.toetsplatform.module.nakijken.controllers;
 import com.cathive.fx.guice.GuiceFXMLLoader;
 import com.google.inject.Inject;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import nl.han.toetsapplicatie.apimodels.dto.UitgevoerdTentamenDto;
 import nl.han.toetsplatform.module.nakijken.applicationlayer.ITentamenNakijken;
 import nl.han.toetsplatform.module.nakijken.config.ConfigTentamenNakijkenModule;
 import nl.han.toetsplatform.module.nakijken.config.NakijkenTentamenFXMLFiles;
-import nl.han.toetsplatform.module.nakijken.model.Tentamen;
-import nl.han.toetsplatform.module.nakijken.model.UitgevoerdTentamen;
-import nl.han.toetsplatform.module.shared.plugin.Plugin;
-import nl.han.toetsplatform.module.shared.plugin.PluginLoader;
 
 import java.io.IOException;
 import java.util.List;
@@ -46,7 +42,7 @@ public class NakijkenMainController {
         switchView(selecteerKlasView);
     }
 
-    private void handleKlasSelectie(List<UitgevoerdTentamen> uitgevoerdeTentamens) {
+    private void handleKlasSelectie(List<UitgevoerdTentamenDto> uitgevoerdeTentamens) {
         try {
             tentamenNakijkenView = fxmlLoader.load(ConfigTentamenNakijkenModule.getFXMLTentamenNakijken(NakijkenTentamenFXMLFiles.TentamenNakijken));
         } catch (IOException e) {
@@ -54,7 +50,7 @@ public class NakijkenMainController {
         }
         switchView(tentamenNakijkenView);
         TentamenNakijkenController tentamenNakijkenController = tentamenNakijkenView.getController();
-        tentamenNakijkenController.setNaTeKijkenTentamen(uitgevoerdeTentamens);
+        tentamenNakijkenController.setNaTeKijkenTentamens(uitgevoerdeTentamens);
         tentamenNakijkenController.setStudentenListView();
         tentamenNakijkenController.setOnTerugClick(this::handleTentamenTerugClick);
     }

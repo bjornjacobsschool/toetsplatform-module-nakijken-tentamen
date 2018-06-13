@@ -129,5 +129,11 @@
             <artifactId>toetsplatform-module-shared</artifactId>
             <version>develop-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.bjornjacobsschool</groupId>
+            <artifactId>toetsplatform-api-models</artifactId>
+            <version>7d46806feb</version>
+        </dependency>
     </dependencies>
 </project>

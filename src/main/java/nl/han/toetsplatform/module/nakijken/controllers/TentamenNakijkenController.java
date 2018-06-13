@@ -5,13 +5,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
-import nl.han.toetsplatform.module.nakijken.model.Student;
-import nl.han.toetsplatform.module.nakijken.model.Tentamen;
-import nl.han.toetsplatform.module.nakijken.model.UitgevoerdTentamen;
+import nl.han.toetsapplicatie.apimodels.dto.UitgevoerdTentamenDto;
 import nl.han.toetsplatform.module.shared.plugin.Plugin;
 import nl.han.toetsplatform.module.shared.plugin.PluginLoader;
 
@@ -26,14 +23,15 @@ public class TentamenNakijkenController {
 
     public AnchorPane vraagContainer;
     public AnchorPane nakijkContainer;
-    private List<UitgevoerdTentamen> uitgevoerdeTentamens;
+    private List<UitgevoerdTentamenDto> uitgevoerdeTentamens;
     private Runnable onTerugClick;
-    private UitgevoerdTentamen uitgevoerdTentamen;
+    private UitgevoerdTentamenDto uitgevoerdTentamen;
     private int indexVraag;
+    private int maxIndex;
 
     @FXML
-    private ListView<UitgevoerdTentamen> studentenListView;
-    private ObservableList<UitgevoerdTentamen> studentenListData = FXCollections.observableArrayList();
+    private ListView<UitgevoerdTentamenDto> studentenListView;
+    private ObservableList<UitgevoerdTentamenDto> studentenListData = FXCollections.observableArrayList();
 
     public void initialize() {
 
@@ -43,22 +41,22 @@ public class TentamenNakijkenController {
         this.onTerugClick = onTerugClick;
     }
 
-    public void setNaTeKijkenTentamen(List<UitgevoerdTentamen> uitgevoerdeTentamens) {
+    public void setNaTeKijkenTentamens(List<UitgevoerdTentamenDto> uitgevoerdeTentamens) {
         this.uitgevoerdeTentamens = uitgevoerdeTentamens;
     }
 
     public void setStudentenListView() {
         this.studentenListData.addAll(this.uitgevoerdeTentamens);
         this.studentenListView.setItems(studentenListData);
-        studentenListView.setCellFactory(param -> new ListCell<UitgevoerdTentamen>() {
+        studentenListView.setCellFactory(param -> new ListCell<UitgevoerdTentamenDto>() {
             @Override
-            protected void updateItem(UitgevoerdTentamen item, boolean empty) {
+            protected void updateItem(UitgevoerdTentamenDto item, boolean empty) {
                 super.updateItem(item, empty);
 
                 if (empty || item == null || item.getStudent() == null) {
                     setText(null);
                 } else {
-                    setText(item.getStudent().getNaam());
+                    setText(String.valueOf(item.getStudent().getStudentNummer()));
                 }
             }
         });
@@ -71,18 +69,28 @@ public class TentamenNakijkenController {
 
     public void btnNakijkenPressed(ActionEvent actionEvent) {
         this.uitgevoerdTentamen = this.studentenListView.getSelectionModel().getSelectedItem();
+        this.maxIndex = this.uitgevoerdTentamen.getVragen().size();
         this.indexVraag = 0;
         this.updateVraag();
     }
 
     public void handleVolgendeBtnClick(ActionEvent actionEvent) {
-        this.indexVraag += 1;
-        this.updateVraag();
+        if (this.indexVraag == this.maxIndex) {
+            //post nagekeken tentamen
+        } else {
+            this.indexVraag += 1;
+            this.updateVraag();
+        }
     }
 
     public void handleVorigeBtnClick(ActionEvent actionEvent) {
-        this.indexVraag -=1;
-        this.updateVraag();
+        if (this.indexVraag == 0) {
+            this.indexVraag = this.maxIndex;
+            this.updateVraag();
+        } else {
+            this.indexVraag -=1;
+            this.updateVraag();
+        }
     }
 
     public void updateVraag() {
