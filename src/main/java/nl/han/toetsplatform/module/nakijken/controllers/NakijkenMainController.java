@@ -11,6 +11,8 @@ import nl.han.toetsplatform.module.nakijken.config.NakijkenTentamenFXMLFiles;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class NakijkenMainController {
@@ -19,6 +21,7 @@ public class NakijkenMainController {
     private GuiceFXMLLoader fxmlLoader;
     private GuiceFXMLLoader.Result tentamenNakijkenView;
     private GuiceFXMLLoader.Result selecteerKlasView;
+    private static final Logger LOGGER = Logger.getLogger(KlasSelectieController.class.getName());
 
     @Inject
     public NakijkenMainController(ITentamenNakijken tentamenNakijken, GuiceFXMLLoader fxmlLoader) {
@@ -36,8 +39,10 @@ public class NakijkenMainController {
     private void handleTentamenTerugClick() {
         try {
             selecteerKlasView = fxmlLoader.load(ConfigTentamenNakijkenModule.getFXMLTentamenNakijken(NakijkenTentamenFXMLFiles.SelecteerKlas));
+            KlasSelectieController klasSelectieController = selecteerKlasView.getController();
+            klasSelectieController.setOnSelectieNakijken(this::handleKlasSelectie);
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.getMessage());
         }
         switchView(selecteerKlasView);
     }
@@ -46,7 +51,7 @@ public class NakijkenMainController {
         try {
             tentamenNakijkenView = fxmlLoader.load(ConfigTentamenNakijkenModule.getFXMLTentamenNakijken(NakijkenTentamenFXMLFiles.TentamenNakijken));
         } catch (IOException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.getMessage());
         }
         switchView(tentamenNakijkenView);
         TentamenNakijkenController tentamenNakijkenController = tentamenNakijkenView.getController();

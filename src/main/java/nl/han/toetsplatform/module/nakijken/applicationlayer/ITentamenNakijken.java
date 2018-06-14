@@ -14,5 +14,7 @@ public interface ITentamenNakijken {
 
     void opslaan(NagekekenTentamenDto nagekekenTentamen) throws GatewayCommunicationException, SQLException;
 
+    void ophalen() throws GatewayCommunicationException, SQLException;
+
 
 }

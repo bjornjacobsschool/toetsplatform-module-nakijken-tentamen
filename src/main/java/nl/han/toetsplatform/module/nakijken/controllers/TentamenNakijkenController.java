@@ -16,9 +16,6 @@ import static nl.han.toetsplatform.module.nakijken.util.RunnableUtil.runIfNotNul
 
 import java.util.List;
 
-/**
- * Created by chico_000 on 4-6-2018.
- */
 public class TentamenNakijkenController {
 
     public AnchorPane vraagContainer;
@@ -84,11 +81,11 @@ public class TentamenNakijkenController {
     }
 
     public void handleVorigeBtnClick(ActionEvent actionEvent) {
-        if (this.indexVraag == 0) {
+        if (this.indexVraag <1) {
             this.indexVraag = this.maxIndex;
             this.updateVraag();
         } else {
-            this.indexVraag -=1;
+            this.indexVraag -= 1;
             this.updateVraag();
         }
     }

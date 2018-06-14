@@ -21,7 +21,6 @@ public class TentamenNakijken implements ITentamenNakijken {
     private IGatewayServiceAgent serviceAgent;
     private TentamenDAO _tentamenDAO;
 
-    @Inject
     public TentamenNakijken(IGatewayServiceAgent _gatewayServiceAgent, TentamenDAO _tentamenDAO){
         this.serviceAgent = _gatewayServiceAgent;
         this._tentamenDAO = _tentamenDAO;
@@ -33,6 +32,13 @@ public class TentamenNakijken implements ITentamenNakijken {
         _tentamenDAO.slaNagekekenTentamenOp(nagekekenTentamen);
         this.serviceAgent.post("/tentamens/nagekeken", nagekekenTentamen);
         System.out.println("gecommuniceerd met de gateway");
+    }
+
+    @Override
+    public void ophalen() throws GatewayCommunicationException, SQLException {
+        List<NagekekenTentamenDto> nagekekenTentamens = new ArrayList<>();
+        //TODO url
+        _tentamenDAO.setNaTeKijkenTentamens(this.serviceAgent.get("/tentamens/uitgevoerd", nagekekenTentamens.getClass()));
     }
 
     @Override
