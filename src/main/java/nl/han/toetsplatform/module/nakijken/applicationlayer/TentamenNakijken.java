@@ -2,11 +2,14 @@ package nl.han.toetsplatform.module.nakijken.applicationlayer;
 
 import com.google.common.reflect.TypeToken;
 import com.google.inject.Inject;
+import nl.han.toetsapplicatie.apimodels.dto.NagekekenTentamenDto;
 import nl.han.toetsapplicatie.apimodels.dto.UitgevoerdTentamenDto;
+import nl.han.toetsplatform.module.nakijken.data.TentamenDAO;
 import nl.han.toetsplatform.module.nakijken.exceptions.GatewayCommunicationException;
 import nl.han.toetsplatform.module.nakijken.serviceagent.IGatewayServiceAgent;
 
 import java.lang.reflect.Type;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -16,10 +19,20 @@ import java.util.List;
 
 public class TentamenNakijken implements ITentamenNakijken {
     private IGatewayServiceAgent serviceAgent;
+    private TentamenDAO _tentamenDAO;
+
+    @Inject
+    public TentamenNakijken(IGatewayServiceAgent _gatewayServiceAgent, TentamenDAO _tentamenDAO){
+        this.serviceAgent = _gatewayServiceAgent;
+        this._tentamenDAO = _tentamenDAO;
+
+    }
 
     @Override
-    public String getTestMessage() {
-        return "Welkom";
+    public void opslaan(NagekekenTentamenDto nagekekenTentamen) throws GatewayCommunicationException, SQLException {
+        _tentamenDAO.slaNagekekenTentamenOp(nagekekenTentamen);
+        this.serviceAgent.post("/tentamens/nagekeken", nagekekenTentamen);
+        System.out.println("gecommuniceerd met de gateway");
     }
 
     @Override
