@@ -25,7 +25,7 @@ public class SQLAntwoordOpVraagDAO implements IAntwoord_op_VraagDAO{
 
 
     @Inject
-    public SQLAntwoordOpVraagDAO(StorageDao storageDao, SQLLoader sqlLoader, IVraagDAO vragenDao) {
+    public SQLAntwoordOpVraagDAO(StorageDao storageDao, SQLLoader sqlLoader) {
         this._storageDao = storageDao;
         this._sqlLoader = sqlLoader;
     }
@@ -47,7 +47,7 @@ public class SQLAntwoordOpVraagDAO implements IAntwoord_op_VraagDAO{
             PreparedStatement psResultaat = conn.prepareStatement(_sqlLoader.load("insert_ANTWOORD_op_VRAAG"));
             psResultaat.setString(1, antwoord.getVraagId());
             psResultaat.setString(2, antwoord.getVraagVersie());
-            psResultaat.setString(3, antwoord.getStudentNummer());
+            psResultaat.setInt(3, antwoord.getStudentNummer());
             psResultaat.setString(4, antwoord.getTentamenCode());
             psResultaat.setString(5, antwoord.getTentamenVersie());
             psResultaat.setString(6, antwoord.getAntwoord());
@@ -69,7 +69,7 @@ public class SQLAntwoordOpVraagDAO implements IAntwoord_op_VraagDAO{
             PreparedStatement psResultaat = conn.prepareStatement(_sqlLoader.load("update_ANTWOORD_op_VRAAG"));
             psResultaat.setString(1, antwoord.getVraagId());
             psResultaat.setString(2, antwoord.getVraagVersie());
-            psResultaat.setString(3, antwoord.getStudentNummer());
+            psResultaat.setInt(3, antwoord.getStudentNummer());
             psResultaat.setString(4, antwoord.getTentamenCode());
             psResultaat.setString(5, antwoord.getTentamenVersie());
             psResultaat.setString(6, antwoord.getAntwoord());
@@ -77,7 +77,7 @@ public class SQLAntwoordOpVraagDAO implements IAntwoord_op_VraagDAO{
             psResultaat.setString(8, antwoord.getNakijkComment());
             psResultaat.setString(9, antwoord.getVraagId());
             psResultaat.setString(10, antwoord.getVraagVersie());
-            psResultaat.setString(11, antwoord.getStudentNummer());
+            psResultaat.setInt(11, antwoord.getStudentNummer());
             psResultaat.setString(12, antwoord.getTentamenCode());
             psResultaat.setString(13, antwoord.getTentamenVersie());
 
@@ -108,11 +108,11 @@ public class SQLAntwoordOpVraagDAO implements IAntwoord_op_VraagDAO{
                 Antwoord_op_Vraag antwoord = new Antwoord_op_Vraag();
                 antwoord.setVraagId(rs.getString("vraagid"));
                 antwoord.setVraagVersie(rs.getString("vraagversie"));
-                antwoord.setStudentNummer(rs.getString("studentnummer"));
+                antwoord.setStudentNummer(rs.getInt("studentnummer"));
                 antwoord.setTentamenCode(rs.getString("tentamencode"));
                 antwoord.setTentamenVersie(rs.getString("tentamenversie"));
                 antwoord.setAntwoord(rs.getString("antwoord"));
-                antwoord.setBehaaldePunten(rs.getFloat("behaaldepunten"));
+                antwoord.setBehaaldePunten(rs.getInt("behaaldepunten"));
                 antwoord.setNakijkComment(rs.getString("nakijkcomment"));
 
                 antwoorden.add(antwoord);

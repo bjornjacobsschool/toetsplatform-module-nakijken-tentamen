@@ -1,18 +1,21 @@
 package nl.han.toetsplatform.module.nakijken.model;
 
 
+import sun.misc.UUDecoder;
+
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
+import java.util.UUID;
 
 public class Tentamen {
     private String tentamenCode;
     private String tentamenVersie;
-    private String tentamenMomentId;
+   // private String tentamenMomentId;
     private String tentamenNaam;
-    private Time tentamenTijdsduur;
+    private String tentamenTijdsduur;
     private Date tentamenKlaarzetDatum;
     private Timestamp tentamenVersieDatum;
     private String tentamenVersieOmschrijving;
@@ -69,11 +72,11 @@ public class Tentamen {
 //        this.toegestaandeHulpmiddelen = toegestaandeHulpmiddelen;
 //    }
 
-    public Time getTentamenTijdsduur() {
+    public String getTentamenTijdsduur() {
         return tentamenTijdsduur;
     }
 
-    public void setTentamenTijdsduur(Time tentamenTijdsduur) {
+    public void setTentamenTijdsduur(String tentamenTijdsduur) {
         this.tentamenTijdsduur = tentamenTijdsduur;
     }
 
@@ -84,14 +87,14 @@ public class Tentamen {
     public void setTentamenVersie(String tentamenVersie) {
         this.tentamenVersie = tentamenVersie;
     }
-
-    public String getTentamenMomentId() {
-        return tentamenMomentId;
-    }
-
-    public void setTentamenMomentId(String tentamenMomentId) {
-        this.tentamenMomentId = tentamenMomentId;
-    }
+//
+//    public String getTentamenMomentId() {
+//        return tentamenMomentId;
+//    }
+//
+//    public void setTentamenMomentId(String tentamenMomentId) {
+//        this.tentamenMomentId = tentamenMomentId;
+//    }
 
     public Date getTentamenKlaarzetDatum() {
         return tentamenKlaarzetDatum;

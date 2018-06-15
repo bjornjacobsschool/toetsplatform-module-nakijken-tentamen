@@ -21,14 +21,12 @@ public class SQLTentamenDAO implements ITentamenDAO {
 
     private SQLLoader _sqlLoader;
 
-    private IVraagDAO _vragenDao;
 
 
     @Inject
-    public SQLTentamenDAO(StorageDao storageDao, SQLLoader sqlLoader, IVraagDAO vragenDao) {
+    public SQLTentamenDAO(StorageDao storageDao, SQLLoader sqlLoader) {
         this._storageDao = storageDao;
         this._sqlLoader = sqlLoader;
-        this._vragenDao = vragenDao;
     }
 
     private boolean isDatabaseConnected(Connection connection){
@@ -39,6 +37,28 @@ public class SQLTentamenDAO implements ITentamenDAO {
 
         return true;
     }
+
+    @Override
+    public void saveTentamen(Tentamen tentamen) {
+        Connection conn = _storageDao.getConnection();
+        if(!isDatabaseConnected(conn))  return;
+
+        try {
+            PreparedStatement psResultaat = conn.prepareStatement(_sqlLoader.load("insert_TENTAMEN"));
+            psResultaat.setString(1, tentamen.getTentamenCode());
+            psResultaat.setString(2, tentamen.getTentamenVersie());
+            psResultaat.setString(3, tentamen.getTentamenNaam());
+            psResultaat.setString(4, tentamen.getTentamenTijdsduur());
+            psResultaat.setDate(5, tentamen.getTentamenKlaarzetDatum());
+            psResultaat.setTimestamp(6, tentamen.getTentamenVersieDatum());
+            psResultaat.setString(7, tentamen.getTentamenVersieOmschrijving());
+
+            psResultaat.execute();
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Could not save data to database");
+        }
+        System.out.println("Done insert nakijkmodel");    }
+
     @Override
     public List<Tentamen> loadTentamens(String tentamenCode, String tentamenVersie) {
         Connection conn = _storageDao.getConnection();
@@ -56,9 +76,8 @@ public class SQLTentamenDAO implements ITentamenDAO {
                 Tentamen tentamen = new Tentamen();
                 tentamen.setTentamenCode(rs.getString("tentamencode"));
                 tentamen.setTentamenVersie(rs.getString("tentamenversie"));
-                tentamen.setTentamenMomentId(rs.getString("tentamenmomentid"));
                 tentamen.setTentamenNaam(rs.getString("tentamennaam"));
-                tentamen.setTentamenTijdsduur(rs.getTime("tentamentijdsduur"));
+                tentamen.setTentamenTijdsduur(rs.getString("tentamentijdsduur"));
                 tentamen.setTentamenKlaarzetDatum(rs.getDate("tentamenklaarzetdatum"));
                 tentamen.setTentamenVersieDatum(rs.getTimestamp("tentamenversiedatum"));
                 tentamen.setTentamenVersieOmschrijving(rs.getString("tentamenversieomschrijving"));

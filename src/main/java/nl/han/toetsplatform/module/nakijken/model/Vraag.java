@@ -2,29 +2,21 @@ package nl.han.toetsplatform.module.nakijken.model;
 
 
 import java.sql.Timestamp;
+import java.util.UUID;
 
 public class Vraag {
 
     private String vraagId;
     private String vraagVersie;
-    private String thema;
+    private String vraagNaam;
+    private String vraagType;
+    private String vraagThema;
+    private String vraagCorrecteAntwoorden;
+    private String vraagNakijkInstructies;
     private String nakijkModelVersie;
     private String   vraagStelling;
-    private String   vraagPlugin;
-    private boolean   vraagOefenvraag;
-    private String   vraagGemaaktDoor;
     private Timestamp vraagVersieDatum;
     private String   vraagVersieOmschrijving;
-
-
-
-//    private String naam;
-//    private String vraagType;
-
-//    private String vraagData;
-    //private int punten;
-   // private String nakijkInstrucites;
-
 
 
     public String getVraagId() {
@@ -51,13 +43,13 @@ public class Vraag {
 //        this.vraagType = vraagType;
 //    }
 
-    public String getThema() {
-        return thema;
-    }
-
-    public void setThema(String thema) {
-        this.thema = thema;
-    }
+//    public String getThema() {
+//        return vraagThema;
+//    }
+//
+//    public void setThema(String thema) {
+//        this.vraagThema = thema;
+//    }
 
     public String getVraagVersie() {
         return vraagVersie;
@@ -108,29 +100,6 @@ public class Vraag {
         this.vraagStelling = vraagStelling;
     }
 
-    public String getVraagPlugin() {
-        return vraagPlugin;
-    }
-
-    public void setVraagPlugin(String vraagPlugin) {
-        this.vraagPlugin = vraagPlugin;
-    }
-
-    public boolean isVraagOefenvraag() {
-        return vraagOefenvraag;
-    }
-
-    public void setVraagOefenvraag(boolean vraagOefenvraag) {
-        this.vraagOefenvraag = vraagOefenvraag;
-    }
-
-    public String getVraagGemaaktDoor() {
-        return vraagGemaaktDoor;
-    }
-
-    public void setVraagGemaaktDoor(String vraagGemaaktDoor) {
-        this.vraagGemaaktDoor = vraagGemaaktDoor;
-    }
 
     public Timestamp getVraagVersieDatum() {
         return vraagVersieDatum;
@@ -146,5 +115,46 @@ public class Vraag {
 
     public void setVraagVersieOmschrijving(String vraagVersieOmschrijving) {
         this.vraagVersieOmschrijving = vraagVersieOmschrijving;
+    }
+
+    public String getVraagNaam() {
+        return vraagNaam;
+    }
+
+    public void setVraagNaam(String vraagNaam) {
+        this.vraagNaam = vraagNaam;
+    }
+
+    public String getVraagType() {
+        return vraagType;
+    }
+
+    public void setVraagType(String vraagType) {
+        this.vraagType = vraagType;
+    }
+
+    public String getVraagThema() {
+        return vraagThema;
+    }
+
+    public void setVraagThema(String vraagThema) {
+        this.vraagThema = vraagThema;
+    }
+
+    public String getVraagCorrecteAntwoorden() {
+        return vraagCorrecteAntwoorden;
+    }
+
+    public void setVraagCorrecteAntwoorden(String vraagCorrecteAntwoorden) {
+        this.vraagCorrecteAntwoorden = vraagCorrecteAntwoorden;
+    }
+
+
+    public String getVraagNakijkInstructies() {
+        return vraagNakijkInstructies;
+    }
+
+    public void setVraagNakijkInstructies(String vraagNakijkInstructies) {
+        this.vraagNakijkInstructies = vraagNakijkInstructies;
     }
 }

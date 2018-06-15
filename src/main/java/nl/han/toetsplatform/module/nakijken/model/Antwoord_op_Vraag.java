@@ -1,14 +1,16 @@
 package nl.han.toetsplatform.module.nakijken.model;
 
+import java.util.UUID;
+
 public class Antwoord_op_Vraag {
 
     private String vraagId;
     private String vraagVersie;
-    private String studentNummer;
+    private int studentNummer;
     private String tentamenCode;
     private String tentamenVersie;
     private String antwoord;
-    private float behaaldePunten;
+    private int behaaldePunten;
     private String nakijkComment;
 
     public String getVraagId() {
@@ -27,11 +29,11 @@ public class Antwoord_op_Vraag {
         this.vraagVersie = vraagVersie;
     }
 
-    public String getStudentNummer() {
+    public int getStudentNummer() {
         return studentNummer;
     }
 
-    public void setStudentNummer(String studentNummer) {
+    public void setStudentNummer(int studentNummer) {
         this.studentNummer = studentNummer;
     }
 
@@ -59,11 +61,11 @@ public class Antwoord_op_Vraag {
         this.antwoord = antwoord;
     }
 
-    public float getBehaaldePunten() {
+    public int getBehaaldePunten() {
         return behaaldePunten;
     }
 
-    public void setBehaaldePunten(float behaaldePunten) {
+    public void setBehaaldePunten(int behaaldePunten) {
         this.behaaldePunten = behaaldePunten;
     }
 

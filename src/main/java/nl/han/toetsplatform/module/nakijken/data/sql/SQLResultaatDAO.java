@@ -47,12 +47,11 @@ public class SQLResultaatDAO implements IResultaatDAO {
 
         try {
             PreparedStatement psResultaat = conn.prepareStatement(_sqlLoader.load("insert_RESULTAAT"));
-            psResultaat.setString(1, resultaat.getStudentNummer());
+            psResultaat.setInt(1, resultaat.getStudentNummer());
             psResultaat.setString(2, resultaat.getTentamenCode());
             psResultaat.setString(3, resultaat.getTentamenVersie());
             psResultaat.setFloat(4, resultaat.getCijfer());
-            psResultaat.setString(5, resultaat.getBeoordelendeDocent());
-            psResultaat.setString(6, resultaat.getHash());
+            psResultaat.setString(5, resultaat.getHash());
             psResultaat.execute();
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Could not save data to database");
@@ -67,15 +66,14 @@ public class SQLResultaatDAO implements IResultaatDAO {
 
         try {
             PreparedStatement psResultaat = conn.prepareStatement(_sqlLoader.load("update_RESULTAAT"));
-            psResultaat.setString(1, resultaat.getStudentNummer());
+            psResultaat.setInt(1, resultaat.getStudentNummer());
             psResultaat.setString(2, resultaat.getTentamenCode());
             psResultaat.setString(3, resultaat.getTentamenVersie());
             psResultaat.setFloat(4, resultaat.getCijfer());
-            psResultaat.setString(5, resultaat.getBeoordelendeDocent());
-            psResultaat.setString(6, resultaat.getHash());
-            psResultaat.setString(7, resultaat.getStudentNummer());
-            psResultaat.setString(8, resultaat.getTentamenCode());
-            psResultaat.setString(9, resultaat.getStudentNummer());
+            psResultaat.setString(5, resultaat.getHash());
+            psResultaat.setInt(6, resultaat.getStudentNummer());
+            psResultaat.setString(7, resultaat.getTentamenCode());
+            psResultaat.setInt(8, resultaat.getStudentNummer());
             psResultaat.execute();
         } catch (SQLException e) {
             LOGGER.log(Level.SEVERE, "Could not save data to database");
@@ -99,11 +97,10 @@ public class SQLResultaatDAO implements IResultaatDAO {
 
             while (rs.next()){
                 Resultaat resultaat = new Resultaat();
-                resultaat.setStudentNummer(rs.getString("studentnummer"));
+                resultaat.setStudentNummer(rs.getInt("studentnummer"));
                 resultaat.setTentamenCode(rs.getString("tentamencode"));
                 resultaat.setTentamenVersie(rs.getString("tentamenversie"));
                 resultaat.setCijfer(rs.getFloat("cijfer"));
-                resultaat.setBeoordelendeDocent(rs.getString("beoordelendedocent"));
                 resultaat.setHash(rs.getString("hash"));
 
                 resultaten.add(resultaat);

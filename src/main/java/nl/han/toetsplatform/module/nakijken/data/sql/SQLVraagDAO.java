@@ -8,10 +8,7 @@ import nl.han.toetsplatform.module.nakijken.model.Vraag;
 import nl.han.toetsplatform.module.shared.storage.StorageDao;
 
 import javax.inject.Inject;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -43,13 +40,41 @@ public class SQLVraagDAO implements IVraagDAO {
 
 
     @Override
+    public void saveVraag(Vraag vraag) {
+        Connection conn = _storageDao.getConnection();
+        if(!isDatabaseConnected(conn))  return;
+
+        try {
+            PreparedStatement psResultaat = conn.prepareStatement(_sqlLoader.load("insert_VRAAG"));
+            psResultaat.setString(1, vraag.getVraagId());
+            psResultaat.setString(2, vraag.getVraagVersie());
+            psResultaat.setString(3, vraag.getVraagNaam());
+            psResultaat.setString(4, vraag.getVraagType());
+            psResultaat.setString(5, vraag.getVraagThema());
+            psResultaat.setString(6, vraag.getVraagCorrecteAntwoorden());
+            psResultaat.setString(7, vraag.getVraagNakijkInstructies());
+            psResultaat.setString(8, vraag.getNakijkModelVersie());
+            psResultaat.setString(9, vraag.getVraagStelling());
+            psResultaat.setTimestamp(10, vraag.getVraagVersieDatum());
+            psResultaat.setString(11, vraag.getVraagVersieOmschrijving());
+
+            psResultaat.execute();
+        } catch (SQLException e) {
+            LOGGER.log(Level.SEVERE, "Could not save data to database");
+        }
+        System.out.println("Done insert vraag");
+    }
+
+
+
+    @Override
     public List<Vraag> loadVragen(String vraagId, String vraagVersie, String themaNaam) {
         Connection conn = _storageDao.getConnection();
 
         if(!isDatabaseConnected(conn))  return new ArrayList<>();
 
         try {
-            PreparedStatement preparedStatement = conn.prepareStatement(_sqlLoader.load("info_tentamen"));
+            PreparedStatement preparedStatement = conn.prepareStatement(_sqlLoader.load("info_vraag"));
             preparedStatement.setString(1, vraagId);
             preparedStatement.setString(2, vraagVersie);
             preparedStatement.setString(3, themaNaam);
@@ -60,12 +85,13 @@ public class SQLVraagDAO implements IVraagDAO {
                 Vraag vraag = new Vraag();
                 vraag.setVraagId(rs.getString("vraagid"));
                 vraag.setVraagVersie(rs.getString("vraagversie"));
-                vraag.setThema(rs.getString("themanaam"));
+                vraag.setVraagNaam(rs.getString("vraagnaam"));
+                vraag.setVraagType(rs.getString("vraagtype"));
+                vraag.setVraagThema(rs.getString("vraagthema"));
+                vraag.setVraagCorrecteAntwoorden(rs.getString("vraagcorrecteantwoorden"));
+                vraag.setVraagNakijkInstructies(rs.getString("vraagnakijkinstructies"));
                 vraag.setNakijkModelVersie(rs.getString("nakijkmodelversie"));
                 vraag.setVraagStelling(rs.getString("vraagstelling"));
-                vraag.setVraagPlugin(rs.getString("vraagplugin"));
-                vraag.setVraagOefenvraag(rs.getBoolean("vraagoefenvraag"));
-                vraag.setVraagGemaaktDoor(rs.getString("vraaggemaaktdoor"));
                 vraag.setVraagVersieDatum(rs.getTimestamp("vraagversiedatum"));
                 vraag.setVraagVersieOmschrijving(rs.getString("vraagversieomschrijving"));
 

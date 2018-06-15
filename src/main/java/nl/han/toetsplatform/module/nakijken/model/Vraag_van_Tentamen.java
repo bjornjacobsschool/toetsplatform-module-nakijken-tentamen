@@ -1,5 +1,7 @@
 package nl.han.toetsplatform.module.nakijken.model;
 
+import java.util.UUID;
+
 public class Vraag_van_Tentamen {
 
 
@@ -7,7 +9,7 @@ public class Vraag_van_Tentamen {
     private String tentamenVersie;
     private String vraagId;
     private String vraagVersie;
-    private float aantalPunten;
+    private int aantalPunten;
 
     public String getTentamenCode() {
         return tentamenCode;
@@ -41,11 +43,11 @@ public class Vraag_van_Tentamen {
         this.vraagVersie = vraagVersie;
     }
 
-    public float getAantalPunten() {
+    public int getAantalPunten() {
         return aantalPunten;
     }
 
-    public void setAantalPunten(float aantalPunten) {
+    public void setAantalPunten(int aantalPunten) {
         this.aantalPunten = aantalPunten;
     }
 }

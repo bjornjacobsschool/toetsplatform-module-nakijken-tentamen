@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IVraagDAO {
 
-    //void saveResultaten(Vraag tentamen);
+    void saveVraag(Vraag vraag);
 
     List<Vraag> loadVragen(String vraagId, String vraagVersie, String ThemaNaam);
 }

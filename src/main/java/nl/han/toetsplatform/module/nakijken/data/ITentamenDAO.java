@@ -5,7 +5,7 @@ import java.util.List;
 
 public interface ITentamenDAO {
 
-   // void saveTentamen(Tentamen tentamen);
+    void saveTentamen(Tentamen tentamen);
 
     List<Tentamen> loadTentamens(String tentamencode, String tentamenversie);
 

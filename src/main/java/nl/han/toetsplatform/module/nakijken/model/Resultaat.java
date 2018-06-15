@@ -1,20 +1,22 @@
 package nl.han.toetsplatform.module.nakijken.model;
 
+import java.util.UUID;
+
 public class Resultaat {
 
-    private String studentNummer;
+    private int studentNummer;
     private String tentamenCode;
     private String tentamenVersie;
     private float cijfer;
-    private String beoordelendeDocent;
+    //private String beoordelendeDocent;
     private String hash;
 
 
-    public String getStudentNummer() {
+    public int getStudentNummer() {
         return studentNummer;
     }
 
-    public void setStudentNummer(String studentNummer) {
+    public void setStudentNummer(int studentNummer) {
         this.studentNummer = studentNummer;
     }
 
@@ -42,13 +44,13 @@ public class Resultaat {
         this.cijfer = cijfer;
     }
 
-    public String getBeoordelendeDocent() {
-        return beoordelendeDocent;
-    }
-
-    public void setBeoordelendeDocent(String beoordelendeDocent) {
-        this.beoordelendeDocent = beoordelendeDocent;
-    }
+//    public String getBeoordelendeDocent() {
+//        return beoordelendeDocent;
+//    }
+//
+//    public void setBeoordelendeDocent(String beoordelendeDocent) {
+//        this.beoordelendeDocent = beoordelendeDocent;
+//    }
 
     public String getHash() {
         return hash;
