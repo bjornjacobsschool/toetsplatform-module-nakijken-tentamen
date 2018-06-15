@@ -1,5 +1,9 @@
 package nl.han.toetsplatform.module.nakijken.util;
 
+import com.cathive.fx.guice.GuiceFXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.layout.AnchorPane;
+
 import java.util.function.Consumer;
 
 public class RunnableUtil {
