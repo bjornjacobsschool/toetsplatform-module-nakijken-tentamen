@@ -18,15 +18,15 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 import static nl.han.toetsplatform.module.nakijken.util.RunnableUtil.runIfNotNull;
 
-/**
- * Created by chico_000 on 4-6-2018.
- */
 public class KlasSelectieController {
     private ITentamenNakijken tentamenNakijken;
+    private static final Logger LOGGER = Logger.getLogger(KlasSelectieController.class.getName());
 
     @FXML
     private ListView<String> tentamenListView;
@@ -54,7 +54,7 @@ public class KlasSelectieController {
         try {
             tentamenListData.addAll(this.tentamenNakijken.getUitgevoerdeTentamens());
         } catch (GatewayCommunicationException e) {
-            e.printStackTrace();
+            LOGGER.log(Level.SEVERE, e.getMessage());
         }
         tentamenListView.setItems(filterTentamens(tentamenListData));
 

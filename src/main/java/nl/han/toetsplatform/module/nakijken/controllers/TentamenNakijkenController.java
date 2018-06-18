@@ -117,10 +117,11 @@ public class TentamenNakijkenController {
     }
 
     public void handleVolgendeBtnClick(ActionEvent actionEvent) {
-        if (indexVraag == maxIndex) {
+        if (this.indexVraag == this.maxIndex) {
             //post nagekeken tentamen
         } else {
-            indexVraag += 1;
+            this.indexVraag += 1;
+            this.updateVraag();
         }
             updateVraag();
     }
