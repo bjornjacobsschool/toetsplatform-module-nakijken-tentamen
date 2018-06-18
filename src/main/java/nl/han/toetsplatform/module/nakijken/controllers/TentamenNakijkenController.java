@@ -94,6 +94,9 @@ public class TentamenNakijkenController {
     }
 
     public void btnNakijkenPressed(ActionEvent actionEvent) {
+        this.uitgevoerdTentamen = this.studentenListView.getSelectionModel().getSelectedItem();
+        this.maxIndex = this.uitgevoerdTentamen.getVragen().size() -1;
+        this.indexVraag = 0;
 
         //Kijk of het huidig geselecteerde tentamen al bestaat in de nagekekenTentamens
         if(!containsName(nagekekenTentamens, uitgevoerdTentamen.getStudent())) {
@@ -106,9 +109,6 @@ public class TentamenNakijkenController {
             }
         }
 
-        this.uitgevoerdTentamen = this.studentenListView.getSelectionModel().getSelectedItem();
-        this.maxIndex = this.uitgevoerdTentamen.getVragen().size() -1;
-        this.indexVraag = 0;
         this.updateVraag();
     }
 
