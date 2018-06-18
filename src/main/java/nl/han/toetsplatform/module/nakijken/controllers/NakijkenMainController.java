@@ -39,6 +39,8 @@ public class NakijkenMainController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        KlasSelectieController klasSelectieController = selecteerKlasView.getController();
+        klasSelectieController.setOnSelectieNakijken(this::handleKlasSelectie);
         switchView(selecteerKlasView);
     }
 
