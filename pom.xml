@@ -133,14 +133,15 @@
         <dependency>
             <groupId>com.github.bjornjacobsschool</groupId>
             <artifactId>toetsplatform-api-models</artifactId>
-            <version>7d46806feb</version>
+            <version>a9189a9644</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.bjornjacobsschool</groupId>
-            <artifactId>toetsplatform-api-models</artifactId>
-            <version>master-SNAPSHOT</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.github.bjornjacobsschool</groupId>-->
+            <!--<artifactId>toetsplatform-api-models</artifactId>-->
+            <!--<version>master-SNAPSHOT</version>-->
+        <!--</dependency>-->
+
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
