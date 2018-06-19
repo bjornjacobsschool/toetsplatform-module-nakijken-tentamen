@@ -19,7 +19,7 @@ public class Main extends GuiceApplication {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = fxmlLoader.load(ConfigTentamenNakijkenModule.getFXMLTentamenNakijken(NakijkenTentamenFXMLFiles.TestScherm), null).getRoot();
+        Parent root = fxmlLoader.load(ConfigTentamenNakijkenModule.getFXMLTentamenNakijken(NakijkenTentamenFXMLFiles.NakijkenMain), null).getRoot();
         primaryStage.setTitle("Nakijken tentamen module");
         primaryStage.setScene(new Scene(root, 1200, 720));
         primaryStage.show();

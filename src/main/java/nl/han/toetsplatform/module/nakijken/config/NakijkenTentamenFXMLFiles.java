@@ -1,7 +1,7 @@
 package nl.han.toetsplatform.module.nakijken.config;
 
 public enum NakijkenTentamenFXMLFiles {
-    TestScherm,
+    NakijkenMain,
     SelecteerKlas,
-    VraagNakijken
+    TentamenNakijken
 }

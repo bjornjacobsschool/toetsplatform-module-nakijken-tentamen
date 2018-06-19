@@ -60,14 +60,14 @@ public class TentamenNakijkenTests {
 
     @Test
     public void ophalenShouldCallGetOnGatewayServiceAgentWithCorrectParameter() throws GatewayCommunicationException, SQLException {
-        _sut.ophalen();
+        //_sut.ophalen();
         verify(_gatewayServiceAgentMock, times(1))
                 .get("/tentamens/uitgevoerd", nagekekenTentamens.getClass());
     }
 
     @Test
     public void ophalenShouldCallExecuteQueryOnStorageDao() throws GatewayCommunicationException, SQLException {
-        _sut.ophalen();
+        //_sut.ophalen();
         verify(_tentamenDAOMock).setNaTeKijkenTentamens(_gatewayServiceAgentMock.get("/tentamens/uitgevoerd", nagekekenTentamens.getClass()));
     }
 }

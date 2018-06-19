@@ -127,13 +127,37 @@
         <dependency>
             <groupId>com.github.bjornjacobsschool</groupId>
             <artifactId>toetsplatform-module-shared</artifactId>
-            <version>feature~FECLYK-697-dao-overzetten-naar-module-gebruikmakend-SNAPSHOT</version>
+            <version>develop-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.bjornjacobsschool</groupId>
+            <artifactId>toetsplatform-api-models</artifactId>
+            <version>7d46806feb</version>
         </dependency>
 
         <dependency>
             <groupId>com.github.bjornjacobsschool</groupId>
             <artifactId>toetsplatform-api-models</artifactId>
             <version>master-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.10.19</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.10.19</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.10.19</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

@@ -1,22 +1,25 @@
 package nl.han.toetsplatform.module.nakijken.applicationlayer;
 
+import com.google.inject.Inject;
 import nl.han.toetsapplicatie.apimodels.dto.NagekekenTentamenDto;
+import nl.han.toetsapplicatie.apimodels.dto.UitgevoerdTentamenDto;
+import nl.han.toetsapplicatie.apimodels.dto.VragenbankVraagDto;
 import nl.han.toetsplatform.module.nakijken.data.TentamenDAO;
 import nl.han.toetsplatform.module.nakijken.exceptions.GatewayCommunicationException;
 import nl.han.toetsplatform.module.nakijken.serviceagent.IGatewayServiceAgent;
 
-import javax.inject.Inject;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class TentamenNakijken implements ITentamenNakijken {
-    private IGatewayServiceAgent _gatewayServiceAgent;
+    private IGatewayServiceAgent serviceAgent;
     private TentamenDAO _tentamenDAO;
 
     @Inject
     public TentamenNakijken(IGatewayServiceAgent _gatewayServiceAgent, TentamenDAO _tentamenDAO){
-        this._gatewayServiceAgent = _gatewayServiceAgent;
+        this.serviceAgent = _gatewayServiceAgent;
         this._tentamenDAO = _tentamenDAO;
 
     }
@@ -24,14 +27,20 @@ public class TentamenNakijken implements ITentamenNakijken {
     @Override
     public void opslaan(NagekekenTentamenDto nagekekenTentamen) throws GatewayCommunicationException, SQLException {
         _tentamenDAO.slaNagekekenTentamenOp(nagekekenTentamen);
-        this._gatewayServiceAgent.post("/tentamens/nagekeken", nagekekenTentamen);
-        System.out.println("gecommuniceerd met de gateway");
+        this.serviceAgent.post("/tentamens/nagekeken", nagekekenTentamen);
     }
 
     @Override
-    public void ophalen() throws GatewayCommunicationException, SQLException {
-        List<NagekekenTentamenDto> nagekekenTentamens = new ArrayList<>();
-        //TODO url
-        _tentamenDAO.setNaTeKijkenTentamens(this._gatewayServiceAgent.get("/tentamens/uitgevoerd", nagekekenTentamens.getClass()));
+    public List<VragenbankVraagDto> getVragen() throws GatewayCommunicationException {
+        ArrayList<VragenbankVraagDto> vragen = new ArrayList<>();
+        vragen.addAll(Arrays.asList(this.serviceAgent.get("/vragenbank", VragenbankVraagDto[].class)));
+        return vragen;
+    }
+
+    @Override
+    public List<UitgevoerdTentamenDto> getUitgevoerdeTentamens() throws GatewayCommunicationException {
+        ArrayList<UitgevoerdTentamenDto> uitgevoerdTentamenDtos = new ArrayList<>();
+        uitgevoerdTentamenDtos.addAll(Arrays.asList(this.serviceAgent.get("tentamens/uitgevoerd", UitgevoerdTentamenDto[].class)));
+        return uitgevoerdTentamenDtos;
     }
 }
