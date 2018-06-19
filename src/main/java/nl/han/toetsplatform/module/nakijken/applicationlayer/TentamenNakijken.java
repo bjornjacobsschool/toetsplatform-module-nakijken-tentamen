@@ -17,16 +17,11 @@ public class TentamenNakijken implements ITentamenNakijken {
     private IGatewayServiceAgent serviceAgent;
     private TentamenDAO _tentamenDAO;
 
-//    @Inject
-//    public TentamenNakijken(IGatewayServiceAgent _gatewayServiceAgent, TentamenDAO _tentamenDAO){
-//        this.serviceAgent = _gatewayServiceAgent;
-//        this._tentamenDAO = _tentamenDAO;
-//
-//    }
-
     @Inject
-    public TentamenNakijken(IGatewayServiceAgent serviceAgent) {
-        this.serviceAgent = serviceAgent;
+    public TentamenNakijken(IGatewayServiceAgent _gatewayServiceAgent, TentamenDAO _tentamenDAO){
+        this.serviceAgent = _gatewayServiceAgent;
+        this._tentamenDAO = _tentamenDAO;
+
     }
 
     @Override

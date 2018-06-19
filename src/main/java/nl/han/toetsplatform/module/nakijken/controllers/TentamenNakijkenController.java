@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import nl.han.toetsapplicatie.apimodels.dto.*;
 import nl.han.toetsplatform.module.nakijken.applicationlayer.ITentamenNakijken;
+import nl.han.toetsplatform.module.nakijken.data.TentamenDAO;
 import nl.han.toetsplatform.module.nakijken.exceptions.GatewayCommunicationException;
 import nl.han.toetsplatform.module.shared.plugin.Plugin;
 import nl.han.toetsplatform.module.shared.plugin.PluginLoader;
@@ -121,7 +122,6 @@ public class TentamenNakijkenController {
             //post nagekeken tentamen
         } else {
             this.indexVraag += 1;
-            this.updateVraag();
         }
             updateVraag();
     }
