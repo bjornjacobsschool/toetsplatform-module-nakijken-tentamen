@@ -1,9 +1,9 @@
 package nl.han.toetsplatform.module.nakijken.data.data.sql;
 
 
-import nl.han.toetsplatform.module.nakijken.data.data.IVraag_van_TentamenDAO;
+import nl.han.toetsplatform.module.nakijken.data.data.IVraagVanTentamenDAO;
 import nl.han.toetsplatform.module.nakijken.data.data.SQLLoader;
-import nl.han.toetsplatform.module.nakijken.model.Vraag_van_Tentamen;
+import nl.han.toetsplatform.module.nakijken.model.VraagVanTentamen;
 import nl.han.toetsplatform.module.shared.storage.StorageDao;
 
 import javax.inject.Inject;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class SQLVraagVanTentamenDAO implements IVraag_van_TentamenDAO {
+public class SQLVraagVanTentamenDAO implements IVraagVanTentamenDAO {
     private final static Logger LOGGER = Logger.getLogger(SQLTentamenDAO.class.getName());
 
     private StorageDao _storageDao;
@@ -40,7 +40,7 @@ public class SQLVraagVanTentamenDAO implements IVraag_van_TentamenDAO {
 
 
     @Override
-    public void saveVraagVanTentamen(Vraag_van_Tentamen vraagVanTentamen) {
+    public void saveVraagVanTentamen(VraagVanTentamen vraagVanTentamen) {
         Connection conn = _storageDao.getConnection();
         if(!isDatabaseConnected(conn))  return;
 
@@ -61,7 +61,7 @@ public class SQLVraagVanTentamenDAO implements IVraag_van_TentamenDAO {
     }
 
     @Override
-    public List<Vraag_van_Tentamen> loadTentamenVragen(String tentamenCode, String tentamenVersie, String vraagId, String vraagVersie) {
+    public List<VraagVanTentamen> loadTentamenVragen(String tentamenCode, String tentamenVersie, String vraagId, String vraagVersie) {
         Connection conn = _storageDao.getConnection();
 
         if(!isDatabaseConnected(conn))  return new ArrayList<>();
@@ -73,10 +73,10 @@ public class SQLVraagVanTentamenDAO implements IVraag_van_TentamenDAO {
             preparedStatement.setString(3, vraagId);
             preparedStatement.setString(4, vraagVersie);
             ResultSet rs = preparedStatement.executeQuery();
-            List<Vraag_van_Tentamen> vragen = new ArrayList<>();
+            List<VraagVanTentamen> vragen = new ArrayList<>();
 
             while (rs.next()){
-                Vraag_van_Tentamen vraag = new Vraag_van_Tentamen();
+                VraagVanTentamen vraag = new VraagVanTentamen();
                 vraag.setTentamenCode(rs.getString("tentamencode"));
                 vraag.setTentamenVersie(rs.getString("tentamenversie"));
                 vraag.setVraagId(rs.getString("vraagid"));

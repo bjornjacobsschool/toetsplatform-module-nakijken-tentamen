@@ -93,7 +93,7 @@ public class DatabaseMapper {
     }
 
     public void fillVraagInTentamen(UitgevoerdTentamenDto uitgevoerdTentamen, VragenbankVraagDto vraag){
-        Vraag_van_Tentamen vraagInTentamen = new Vraag_van_Tentamen();
+        VraagVanTentamen vraagInTentamen = new VraagVanTentamen();
         int tentamenVersie = uitgevoerdTentamen.getVersie().getNummer();
         int vraagVersie = vraag.getVersie().getNummer();
 
@@ -107,7 +107,7 @@ public class DatabaseMapper {
     }
 
     public void fillAntwoordOpVraag(IngevuldeVraagDto ingevuldeVraag, UitgevoerdTentamenDto uitgevoerdTentamen) {
-        Antwoord_op_Vraag nieuwAntwoord = new Antwoord_op_Vraag();
+        AntwoordOpVraag nieuwAntwoord = new AntwoordOpVraag();
         int versie = ingevuldeVraag.getVersie().getNummer();
         int tentamenversie = uitgevoerdTentamen.getVersie().getNummer();
 
@@ -132,11 +132,11 @@ public class DatabaseMapper {
         studentDAO.saveStudent(nieuwstudent);
     }
 
-    public List<NagekekenVraagDto> naarNagekenTentamenDTO(List<IngevuldeVraagDto> ingevuldeVragen, List<Antwoord_op_Vraag> negekekenVragen){
+    public List<NagekekenVraagDto> naarNagekenTentamenDTO(List<IngevuldeVraagDto> ingevuldeVragen, List<AntwoordOpVraag> negekekenVragen){
         List<NagekekenVraagDto> nagekenVragen = new ArrayList<>();
 
         for(IngevuldeVraagDto ingevuldeVraag : ingevuldeVragen){
-            for(Antwoord_op_Vraag  nagekekenVraag : negekekenVragen){
+            for(AntwoordOpVraag nagekekenVraag : negekekenVragen){
                if( ingevuldeVraag.getId().toString().equals(nagekekenVraag.getTentamenCode())){
                    NagekekenVraagDto nieuweNagekenVraag = new NagekekenVraagDto();
                    nieuweNagekenVraag.setId(UUID.fromString(nagekekenVraag.getVraagId()));

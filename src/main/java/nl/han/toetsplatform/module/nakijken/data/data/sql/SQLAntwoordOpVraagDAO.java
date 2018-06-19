@@ -1,9 +1,9 @@
 package nl.han.toetsplatform.module.nakijken.data.data.sql;
 
 
-import nl.han.toetsplatform.module.nakijken.data.data.IAntwoord_op_VraagDAO;
+import nl.han.toetsplatform.module.nakijken.data.data.IAntwoordOpVraagDAO;
 import nl.han.toetsplatform.module.nakijken.data.data.SQLLoader;
-import nl.han.toetsplatform.module.nakijken.model.Antwoord_op_Vraag;
+import nl.han.toetsplatform.module.nakijken.model.AntwoordOpVraag;
 import nl.han.toetsplatform.module.shared.storage.StorageDao;
 
 import javax.inject.Inject;
@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class SQLAntwoordOpVraagDAO implements IAntwoord_op_VraagDAO{
+public class SQLAntwoordOpVraagDAO implements IAntwoordOpVraagDAO {
     private final static Logger LOGGER = Logger.getLogger(SQLTentamenDAO.class.getName());
 
     private StorageDao _storageDao;
@@ -39,7 +39,7 @@ public class SQLAntwoordOpVraagDAO implements IAntwoord_op_VraagDAO{
     }
 
     @Override
-    public void saveAntwoorden(Antwoord_op_Vraag antwoord) {
+    public void saveAntwoorden(AntwoordOpVraag antwoord) {
         Connection conn = _storageDao.getConnection();
         if(!isDatabaseConnected(conn))  return;
 
@@ -62,7 +62,7 @@ public class SQLAntwoordOpVraagDAO implements IAntwoord_op_VraagDAO{
     }
 
     @Override
-    public void updateAntwoord(Antwoord_op_Vraag antwoord) {
+    public void updateAntwoord(AntwoordOpVraag antwoord) {
         Connection conn = _storageDao.getConnection();
         if(!isDatabaseConnected(conn))  return;
 
@@ -91,7 +91,7 @@ public class SQLAntwoordOpVraagDAO implements IAntwoord_op_VraagDAO{
     }
 
     @Override
-    public List<Antwoord_op_Vraag> loadAntwoorden(String vraagId, String vraagVersie, String tentamenCode, String tentamenVersie) {
+    public List<AntwoordOpVraag> loadAntwoorden(String vraagId, String vraagVersie, String tentamenCode, String tentamenVersie) {
         Connection conn = _storageDao.getConnection();
 
         if(!isDatabaseConnected(conn))  return new ArrayList<>();
@@ -103,10 +103,10 @@ public class SQLAntwoordOpVraagDAO implements IAntwoord_op_VraagDAO{
             preparedStatement.setString(3, "%" + tentamenCode + "%");
             preparedStatement.setString(4, "%" + tentamenVersie  + "%");
             ResultSet rs = preparedStatement.executeQuery();
-            List<Antwoord_op_Vraag> antwoorden = new ArrayList<>();
+            List<AntwoordOpVraag> antwoorden = new ArrayList<>();
 
             while (rs.next()){
-                Antwoord_op_Vraag antwoord = new Antwoord_op_Vraag();
+                AntwoordOpVraag antwoord = new AntwoordOpVraag();
                 antwoord.setVraagId(rs.getString("vraagid"));
                 antwoord.setVraagVersie(rs.getString("vraagversie"));
                 antwoord.setStudentNummer(rs.getInt("studentnummer"));
@@ -128,7 +128,7 @@ public class SQLAntwoordOpVraagDAO implements IAntwoord_op_VraagDAO{
     }
 
     @Override
-    public List<Antwoord_op_Vraag> loadAllAntwoorden() {
+    public List<AntwoordOpVraag> loadAllAntwoorden() {
         Connection conn = _storageDao.getConnection();
 
         if(!isDatabaseConnected(conn))  return new ArrayList<>();
@@ -139,9 +139,9 @@ public class SQLAntwoordOpVraagDAO implements IAntwoord_op_VraagDAO{
 //            ResultSet rs = preparedStatement.executeQuery();
 
 
-            List<Antwoord_op_Vraag> antwoorden = new ArrayList<>();
+            List<AntwoordOpVraag> antwoorden = new ArrayList<>();
             while (rs.next()){
-                Antwoord_op_Vraag antwoord = new Antwoord_op_Vraag();
+                AntwoordOpVraag antwoord = new AntwoordOpVraag();
                 antwoord.setVraagId(rs.getString("vraagid"));
                 antwoord.setVraagVersie(rs.getString("vraagversie"));
                 antwoord.setStudentNummer(rs.getInt("studentnummer"));

@@ -1,6 +1,6 @@
 package nl.han.toetsplatform.module.nakijken.model;
 
-public class Antwoord_op_Vraag {
+public class AntwoordOpVraag {
 
     private String vraagId;
     private String vraagVersie;

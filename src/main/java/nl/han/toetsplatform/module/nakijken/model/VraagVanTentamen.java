@@ -1,6 +1,6 @@
 package nl.han.toetsplatform.module.nakijken.model;
 
-public class Vraag_van_Tentamen {
+public class VraagVanTentamen {
 
 
     private String tentamenCode;

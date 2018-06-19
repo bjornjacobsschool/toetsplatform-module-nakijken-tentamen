@@ -3,11 +3,10 @@ package nl.han.toetsplatform.module.nakijken.guice;
 import com.google.inject.AbstractModule;
 import nl.han.toetsplatform.module.nakijken.applicationlayer.ITentamenNakijken;
 import nl.han.toetsplatform.module.nakijken.applicationlayer.TentamenNakijken;
-import nl.han.toetsplatform.module.nakijken.data.TentamenDAO;
-import nl.han.toetsplatform.module.nakijken.data.data.IAntwoord_op_VraagDAO;
+import nl.han.toetsplatform.module.nakijken.data.data.IAntwoordOpVraagDAO;
 import nl.han.toetsplatform.module.nakijken.data.data.IResultaatDAO;
 import nl.han.toetsplatform.module.nakijken.data.data.IVraagDAO;
-import nl.han.toetsplatform.module.nakijken.data.data.IVraag_van_TentamenDAO;
+import nl.han.toetsplatform.module.nakijken.data.data.IVraagVanTentamenDAO;
 import nl.han.toetsplatform.module.nakijken.data.data.sql.SQLAntwoordOpVraagDAO;
 import nl.han.toetsplatform.module.nakijken.data.data.sql.SQLResultaatDAO;
 import nl.han.toetsplatform.module.nakijken.data.data.sql.SQLVraagDAO;
@@ -26,8 +25,8 @@ public class GuiceModule extends AbstractModule {
         bind(ITentamenNakijken.class).to(TentamenNakijken.class);
         bind(IVraagDAO.class).to(SQLVraagDAO.class);
         bind(IResultaatDAO.class).to(SQLResultaatDAO.class);
-        bind(IVraag_van_TentamenDAO.class).to(SQLVraagVanTentamenDAO.class);
-        bind(IAntwoord_op_VraagDAO.class).to(SQLAntwoordOpVraagDAO.class);
+        bind(IVraagVanTentamenDAO.class).to(SQLVraagVanTentamenDAO.class);
+        bind(IAntwoordOpVraagDAO.class).to(SQLAntwoordOpVraagDAO.class);
         bind(IGatewayServiceAgent.class).to(GatewayServiceAgent.class);
         bind(StorageDao.class).to(StubStorageDao.class);
     }
