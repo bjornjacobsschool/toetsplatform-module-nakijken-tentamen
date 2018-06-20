@@ -26,9 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * Created by chico_000 on 4-6-2018.
- */
 public class TentamenNakijkenController {
 
     private ITentamenNakijken tentamenNakijken;
