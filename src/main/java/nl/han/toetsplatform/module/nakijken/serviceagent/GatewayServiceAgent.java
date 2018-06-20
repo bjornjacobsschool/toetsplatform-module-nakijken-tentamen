@@ -5,11 +5,19 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.config.DefaultClientConfig;
+import nl.han.toetsplatform.module.nakijken.applicationlayer.TentamenNakijken;
 import nl.han.toetsplatform.module.nakijken.exceptions.GatewayCommunicationException;
 
-public class GatewayServiceAgent  implements IGatewayServiceAgent{
+import javax.ws.rs.core.Response;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class GatewayServiceAgent implements IGatewayServiceAgent{
     private String baseUrl;
     private Client client;
+
+    private final static Logger LOGGER = Logger.getLogger(TentamenNakijken.class.getName());
+
 
     public GatewayServiceAgent() {
         this.client = Client.create( new DefaultClientConfig());
@@ -20,23 +28,41 @@ public class GatewayServiceAgent  implements IGatewayServiceAgent{
         // request to server
         WebResource webResource = client.resource(this.baseUrl).path(resourceUrl);
 
-        // reading response from server
-        ClientResponse response = webResource.get(ClientResponse.class);
-        if (response.getStatus() != 200) {
-            throw new GatewayCommunicationException();
+        try {
+            // reading response from server
+            ClientResponse response = webResource.get(ClientResponse.class);
+            if (response.getStatus() == 200) {
+                return response.getEntity(type);
+            }
+            else{
+                LOGGER.log(Level.INFO, "Error connecting to gateway GET: " + response.getStatusInfo());
+            }
+        }
+        catch (Exception e){
+            LOGGER.log(Level.WARNING, "Kon niet verbinden met gateway " + e.getMessage());
         }
 
-        return response.getEntity(type);
+        throw new GatewayCommunicationException();
     }
 
     public <T> void post(String resourceUrl, T entity) throws GatewayCommunicationException {
         // request to server
         WebResource webResource = client.resource(this.baseUrl).path(resourceUrl);
 
-        // reading response from server
-        ClientResponse response = webResource.post(ClientResponse.class, entity);
-        if (response.getStatus() != 200) {
+        String json = new Gson().toJson(entity);
+
+        try{
+            ClientResponse response = webResource.post(ClientResponse.class, json);
+
+            if (response.getStatusInfo().getFamily() != Response.Status.Family.SUCCESSFUL) {
+                LOGGER.log(Level.INFO, "Error connecting to gateway POST: " + response.getStatusInfo());
+                throw new GatewayCommunicationException();
+            }
+        }
+        catch (Exception e){
+            LOGGER.log(Level.WARNING, "Kon niet verbinden met gateway " + e.getMessage());
             throw new GatewayCommunicationException();
         }
+
     }
 }

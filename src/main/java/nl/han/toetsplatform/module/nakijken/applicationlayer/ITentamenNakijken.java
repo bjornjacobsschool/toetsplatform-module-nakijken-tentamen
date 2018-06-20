@@ -22,5 +22,5 @@ public interface ITentamenNakijken {
 
      List<AntwoordOpVraag> getNagekekenVragen();
 
-     void postNagekekenTentamen(NagekekenTentamenDto nagekekenTentamen);
+     boolean postNagekekenTentamen(NagekekenTentamenDto nagekekenTentamen);
 }

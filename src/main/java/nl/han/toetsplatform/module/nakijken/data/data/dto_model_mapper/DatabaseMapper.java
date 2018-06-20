@@ -28,8 +28,8 @@ public class DatabaseMapper {
             SamengesteldTentamenDto  samengesteldTentamen;
             List<IngevuldeVraagDto> ingevuldeVragen;
 
-            klaargezetTentamen = myGateway.get("GET /tentamens/klaargezet/" + uitgevoerdTentamen.getId().toString(), KlaargezetTentamenDto.class);
-            samengesteldTentamen = myGateway.get("GET /tentamens/samengesteld/" + uitgevoerdTentamen.getId().toString(), SamengesteldTentamenDto.class);
+            klaargezetTentamen = myGateway.get("/tentamens/klaargezet/" + uitgevoerdTentamen.getId().toString(), KlaargezetTentamenDto.class);
+            samengesteldTentamen = myGateway.get("/tentamens/samengesteld/" + uitgevoerdTentamen.getId().toString(), SamengesteldTentamenDto.class);
             ingevuldeVragen = uitgevoerdTentamen.getVragen();
 
             int versie = uitgevoerdTentamen.getVersie().getNummer();
