@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import nl.han.toetsplatform.module.nakijken.config.ConfigTentamenNakijkenModule;
 import nl.han.toetsplatform.module.nakijken.config.NakijkenTentamenFXMLFiles;
+import nl.han.toetsplatform.module.nakijken.guice.StubGuiceModule;
 
 import java.util.List;
 
@@ -32,5 +33,6 @@ public class Main extends GuiceApplication {
     @Override
     public void init(List<Module> modules) throws Exception {
         modules.add(ConfigTentamenNakijkenModule.getModule());
+        modules.add(new StubGuiceModule());
     }
 }

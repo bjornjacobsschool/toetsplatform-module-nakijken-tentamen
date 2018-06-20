@@ -28,7 +28,7 @@ public class GuiceModule extends AbstractModule {
         bind(IVraagVanTentamenDAO.class).to(SQLVraagVanTentamenDAO.class);
         bind(IAntwoordOpVraagDAO.class).to(SQLAntwoordOpVraagDAO.class);
         bind(IGatewayServiceAgent.class).to(GatewayServiceAgent.class);
-        bind(StorageDao.class).to(StubStorageDao.class);
+
     }
 
 
