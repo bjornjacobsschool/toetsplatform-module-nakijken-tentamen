@@ -8,6 +8,9 @@ import nl.han.toetsapplicatie.apimodels.dto.UitgevoerdTentamenDto;
 import nl.han.toetsplatform.module.nakijken.applicationlayer.ITentamenNakijken;
 import nl.han.toetsplatform.module.nakijken.config.ConfigTentamenNakijkenModule;
 import nl.han.toetsplatform.module.nakijken.config.NakijkenTentamenFXMLFiles;
+import nl.han.toetsplatform.module.nakijken.data.data.SQLLoader;
+import nl.han.toetsplatform.module.nakijken.data.data.dto_model_mapper.createDatabase;
+import nl.han.toetsplatform.module.nakijken.data.data.stub.StubStorageDao;
 
 import java.io.IOException;
 import java.util.List;
@@ -17,11 +20,13 @@ import java.util.logging.Logger;
 
 public class NakijkenMainController {
     public AnchorPane mainContainer;
-    ITentamenNakijken _tentamenNakijken;
+    private ITentamenNakijken _tentamenNakijken;
     private GuiceFXMLLoader fxmlLoader;
     private GuiceFXMLLoader.Result tentamenNakijkenView;
     private GuiceFXMLLoader.Result selecteerKlasView;
     private static final Logger LOGGER = Logger.getLogger(KlasSelectieController.class.getName());
+    private StubStorageDao _storageDao = new StubStorageDao();
+    private SQLLoader      _sqlloader = new SQLLoader();
 
     @Inject
     public NakijkenMainController(ITentamenNakijken tentamenNakijken, GuiceFXMLLoader fxmlLoader) {
@@ -30,10 +35,13 @@ public class NakijkenMainController {
     }
 
     public void initialize() throws IOException{
+        createDatabase createDatabase = new createDatabase(_storageDao, _sqlloader);
+        createDatabase.createDatabsase();
         GuiceFXMLLoader.Result selecteerKlasView = fxmlLoader.load(ConfigTentamenNakijkenModule.getFXMLTentamenNakijken(NakijkenTentamenFXMLFiles.SelecteerKlas));
         mainContainer.getChildren().add(selecteerKlasView.getRoot());
         KlasSelectieController klasSelectieController = selecteerKlasView.getController();
         klasSelectieController.setOnSelectieNakijken(this::handleKlasSelectie);
+
     }
 
     private void handleTentamenTerugClick() {

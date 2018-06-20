@@ -45,18 +45,18 @@ public class TentamenNakijkenTests {
         nagekekenTentamens = new ArrayList<>();
     }
 
-    @Test
-    public void opslaanShouldCallGetOnGatewayServiceAgentWithCorrectParameter() throws GatewayCommunicationException, SQLException {
-        _sut.opslaan(nagekekenTentamen);
-        verify(_gatewayServiceAgentMock, times(1))
-                .post("/tentamens/nagekeken", nagekekenTentamen);
-    }
-
-    @Test
-    public void opslaanShouldCallExecuteQueryOnStorageDao() throws GatewayCommunicationException, SQLException {
-        _sut.opslaan(nagekekenTentamen);
-        verify(_tentamenDAOMock).slaNagekekenTentamenOp(nagekekenTentamen);
-    }
+//    @Test
+//    public void opslaanShouldCallGetOnGatewayServiceAgentWithCorrectParameter() throws GatewayCommunicationException, SQLException {
+//        _sut.opslaan(nagekekenTentamen);
+//        verify(_gatewayServiceAgentMock, times(1))
+//                .post("/tentamens/nagekeken", nagekekenTentamen);
+//    }
+//
+//    @Test
+//    public void opslaanShouldCallExecuteQueryOnStorageDao() throws GatewayCommunicationException, SQLException {
+//        _sut.opslaan(nagekekenTentamen);
+//        verify(_tentamenDAOMock).slaNagekekenTentamenOp(nagekekenTentamen);
+//    }
 
     @Test
     public void ophalenShouldCallGetOnGatewayServiceAgentWithCorrectParameter() throws GatewayCommunicationException, SQLException {

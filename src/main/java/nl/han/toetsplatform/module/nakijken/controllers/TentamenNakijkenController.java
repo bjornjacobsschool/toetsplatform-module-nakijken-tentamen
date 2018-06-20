@@ -10,20 +10,22 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import nl.han.toetsapplicatie.apimodels.dto.*;
 import nl.han.toetsplatform.module.nakijken.applicationlayer.ITentamenNakijken;
-import nl.han.toetsplatform.module.nakijken.data.TentamenDAO;
+import nl.han.toetsplatform.module.nakijken.data.data.SQLLoader;
+import nl.han.toetsplatform.module.nakijken.data.data.dto_model_mapper.DatabaseMapper;
+import nl.han.toetsplatform.module.nakijken.data.data.sql.SQLAntwoordOpVraagDAO;
+import nl.han.toetsplatform.module.nakijken.data.data.stub.StubStorageDao;
 import nl.han.toetsplatform.module.nakijken.exceptions.GatewayCommunicationException;
+import nl.han.toetsplatform.module.nakijken.model.AntwoordOpVraag;
 import nl.han.toetsplatform.module.shared.plugin.Plugin;
 import nl.han.toetsplatform.module.shared.plugin.PluginLoader;
 
 import static nl.han.toetsplatform.module.nakijken.util.RunnableUtil.runIfNotNull;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * Created by chico_000 on 4-6-2018.
- */
 public class TentamenNakijkenController {
 
     private ITentamenNakijken tentamenNakijken;
@@ -50,9 +52,11 @@ public class TentamenNakijkenController {
     private ObservableList<UitgevoerdTentamenDto> studentenListData = FXCollections.observableArrayList();
     private List<UitgevoerdTentamenDto> uitgevoerdeTentamens;
     private UitgevoerdTentamenDto uitgevoerdTentamen;
+    private StubStorageDao _stoarageDAO = new StubStorageDao();
+    private SQLLoader _sqlLoader = new SQLLoader();
+    private SQLAntwoordOpVraagDAO antwoordOpVraagDAO = new SQLAntwoordOpVraagDAO(_stoarageDAO, _sqlLoader);
+    private DatabaseMapper databaseMapper = new DatabaseMapper();
 
-    List<NagekekenTentamenDto> nagekekenTentamens;
-    NagekekenTentamenDto huidigNagekekenTentamen;
     @Inject
     public TentamenNakijkenController(ITentamenNakijken tentamenNakijken) {
         this.tentamenNakijken = tentamenNakijken;
@@ -60,8 +64,8 @@ public class TentamenNakijkenController {
 
     public void initialize() throws GatewayCommunicationException {
         alleVragen = tentamenNakijken.getVragen();
-        totaalAantalPuntenLabel.setText("");
-        nagekekenTentamens = new ArrayList<>();
+        totaalAantalPuntenLabel.setText("0");
+        toelichtingTextArea.setText(" ");
     }
 
     public void setOnTerugClick(Runnable onTerugClick) {
@@ -72,6 +76,9 @@ public class TentamenNakijkenController {
         this.uitgevoerdeTentamens = uitgevoerdeTentamens;
     }
 
+    /**
+     * Toon de lijst van uitgevoerde tentamens in de lijst.
+     */
     public void setStudentenListView() {
         this.studentenListData.addAll(this.uitgevoerdeTentamens);
         this.studentenListView.setItems(studentenListData);
@@ -90,47 +97,85 @@ public class TentamenNakijkenController {
     }
 
     @FXML
-    public void handleTerugButtonClick(){
+    public void handleTerugButtonClick() {
         runIfNotNull(onTerugClick);
     }
 
+    /**
+     * Toon de eerste vraag van het geselecteerde uitgevoerde tentamen
+     * @param actionEvent
+     */
     public void btnNakijkenPressed(ActionEvent actionEvent) {
         this.uitgevoerdTentamen = this.studentenListView.getSelectionModel().getSelectedItem();
-        this.maxIndex = this.uitgevoerdTentamen.getVragen().size() -1;
+        this.maxIndex = this.uitgevoerdTentamen.getVragen().size() - 1;
         this.indexVraag = 0;
-
-        //Kijk of het huidig geselecteerde tentamen al bestaat in de nagekekenTentamens
-        if(!containsName(nagekekenTentamens, uitgevoerdTentamen.getStudent())) {
-            huidigNagekekenTentamen = new NagekekenTentamenDto();
-        }
-        else {
-            for (NagekekenTentamenDto nagekekenTentamenDto : nagekekenTentamens) {
-                if (nagekekenTentamenDto.getStudent().equals(uitgevoerdTentamen.getStudent()))
-                    huidigNagekekenTentamen = nagekekenTentamenDto;
-            }
-        }
 
         this.updateVraag();
     }
 
-    public boolean containsName(final List<NagekekenTentamenDto> list, final StudentDto student){
-        return list.stream().map(NagekekenTentamenDto::getStudent).filter(student::equals).findFirst().isPresent();
-    }
-
+    /**
+     * Sla de huidige vraag gegevens lokaal op en navigeer naar de volgende vraag.
+     * Als het de laatste vraag van het tentamen is sla het nagekeken tentamen op de server op
+     * @param actionEvent
+     */
     public void handleVolgendeBtnClick(ActionEvent actionEvent) {
+        saveDataLokaal();
+
         if (this.indexVraag == this.maxIndex) {
-            //post nagekeken tentamen
+            slaNagekekenTentamenOp();
         } else {
             this.indexVraag += 1;
         }
-            updateVraag();
+
+        updateVraag();
     }
 
+    /**
+     * Sla het huidig geselecteerde tentamen op
+     */
+    private void slaNagekekenTentamenOp() {
+        List<AntwoordOpVraag> nagekekenVragen = tentamenNakijken.getNagekekenVragen();
+        List<NagekekenVraagDto> nagekenVragen = databaseMapper.naarNagekenTentamenDTO(uitgevoerdTentamen.getVragen() , nagekekenVragen);
+        int behaaldePunten = 0;
+        int totaalPuntenAantal = 0;
+
+        for(AntwoordOpVraag nageken : nagekekenVragen){
+           behaaldePunten+=nageken.getBehaaldePunten();
+            //Krijg de vraagdetails van de huidige vraag
+            UUID id = UUID.fromString(nageken.getVraagId());
+            for (VragenbankVraagDto vraag : alleVragen) {
+                if (vraag.getId().equals(id))
+                    totaalPuntenAantal += vraag.getPunten();
+            }
+        }
+
+        int cijfer =  berekenCijcer(totaalPuntenAantal, behaaldePunten);
+        NagekekenTentamenDto nagekekenTentamen = databaseMapper.createNagekenTentameDTO(uitgevoerdTentamen,nagekenVragen, cijfer);
+
+        for (NagekekenVraagDto v : nagekekenTentamen.getVragen()){
+            System.out.println(v);
+        }
+        Alert alert = new Alert(Alert.AlertType.NONE, "", ButtonType.OK);
+        alert.initOwner(this.studentenListView.getScene().getWindow());
+        if(tentamenNakijken.postNagekekenTentamen(nagekekenTentamen)){
+            alert.setContentText("Tentamen nagekeken en opgeslagen en verstuurd");
+        } else {
+            alert.setContentText("Tentamen nageken maar ALLEEN lokaal opgeslagen");
+        }
+        alert.showAndWait();
+    }
+
+    /**
+     * Navigeer naar de vorige vraag.
+     * @param actionEvent
+     */
     public void handleVorigeBtnClick(ActionEvent actionEvent) {
+        saveDataLokaal();
+
         if (this.indexVraag == 0) {
             this.indexVraag = this.maxIndex;
         } else {
-            this.indexVraag -=1;
+            this.indexVraag -= 1;
         }
         updateVraag();
     }
@@ -142,26 +187,36 @@ public class TentamenNakijkenController {
         vraagContainer.getChildren().clear();
         nakijkContainer.getChildren().clear();
 
-        // TODO Opslaan lokale database -> Michiel
+        List<AntwoordOpVraag> antwoordenList = antwoordOpVraagDAO.loadAllAntwoorden();
+        boolean antwoordBestaat = false;
+        AntwoordOpVraag bestaandeAntwoord = new AntwoordOpVraag();
+        for(AntwoordOpVraag antwoord : antwoordenList){
+            if(antwoord.getVraagId().equals(uitgevoerdTentamen.getVragen().get(indexVraag).getId().toString())
+                    && antwoord.getStudentNummer() == uitgevoerdTentamen.getStudent().getStudentNummer()
+                    && antwoord.getTentamenCode().equals(uitgevoerdTentamen.getId().toString())){
+                antwoordBestaat = true;
+                bestaandeAntwoord = antwoord;
+            }
+        }
+
+        if (antwoordBestaat){
+            behaaldePuntenField.setText(String.valueOf(bestaandeAntwoord.getBehaaldePunten()));
+            toelichtingTextArea.setText(bestaandeAntwoord.getNakijkComment());
+        } else {
+            behaaldePuntenField.setText("0");
+            toelichtingTextArea.clear();
+        }
 
         //Krijg de vraagdetails van de huidige vraag
         UUID id = uitgevoerdTentamen.getVragen().get(indexVraag).getId();
         VragenbankVraagDto vraagDto = null;
-        for(VragenbankVraagDto vraag : alleVragen) {
-            if(vraag.getId().equals(id))
+        for (VragenbankVraagDto vraag : alleVragen) {
+            if (vraag.getId().equals(id))
                 vraagDto = vraag;
         }
-        if(vraagDto == null){
-           // handle it
+        if (vraagDto == null) {
+            // handle it
         }
-
-        //Test data omdat er nog geen correcte test data bestaat.
-        System.out.println(vraagDto.getVraagData());
-        vraagDto.setVraagData("{\"vraag\":\"Teken stap voor stap de stack bij de volgende expressie:\",\"laatstToegevoegd\":[\"5\",\"5\",\"+\",\"8\",\"*\"],\"stack\":[[5],[5,5],[10],[8,10],[80]],\"expressie\":\"5 5 + 8 *\"}");
-        vraagDto.setVraagtype("nl.han.toetsplatform.plugin.TekenPlugin");
-        vraagDto.setPunten(10);
-        uitgevoerdTentamen.getVragen().get(indexVraag).setGegevenAntwoord("{\"vraag\":\"Teken stap voor stap de stack bij de volgende expressie:\",\"laatstToegevoegd\":[\"5\",\"5\",\"+\",\"8\",\"*\"],\"stack\":[[5],[5,5],[10],[8,10],[80]],\"expressie\":\"5 5 + 8 *\"}");
-        //////
 
         totaalAantalPuntenLabel.setText("Deze vraag is " + vraagDto.getPunten() + " punten waard.");
         try {
@@ -173,5 +228,46 @@ public class TentamenNakijkenController {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Sla de huidige vraag lokaal op
+     */
+    private void saveDataLokaal() {
+        try {
+            AntwoordOpVraag tempNagekekenVraag = new AntwoordOpVraag();
+            tempNagekekenVraag.setVraagId(uitgevoerdTentamen.getVragen().get(indexVraag).getId().toString());
+            tempNagekekenVraag.setVraagVersie(String.valueOf(uitgevoerdTentamen.getVragen().get(indexVraag).getVersie().getNummer()));
+            tempNagekekenVraag.setTentamenCode(uitgevoerdTentamen.getId().toString());
+            tempNagekekenVraag.setTentamenVersie(String.valueOf(uitgevoerdTentamen.getVersie().getNummer()));
+            tempNagekekenVraag.setStudentNummer(uitgevoerdTentamen.getStudent().getStudentNummer());
+            tempNagekekenVraag.setAntwoord(uitgevoerdTentamen.getVragen().get(indexVraag).getGegevenAntwoord());
+            tempNagekekenVraag.setBehaaldePunten(Integer.parseInt(behaaldePuntenField.getText()));
+            tempNagekekenVraag.setNakijkComment(toelichtingTextArea.getText());
+
+
+            List<AntwoordOpVraag> antwoordenList = antwoordOpVraagDAO.loadAllAntwoorden();
+            boolean antwoordBestaat = false;
+
+            for(AntwoordOpVraag antwoord : antwoordenList){
+                if(antwoord.getVraagId().equals(tempNagekekenVraag.getVraagId()) && antwoord.getStudentNummer() == tempNagekekenVraag.getStudentNummer() && antwoord.getTentamenCode().equals(tempNagekekenVraag.getTentamenCode())){
+                    antwoordBestaat = true;
+                }
+            }
+
+            if(!antwoordBestaat) {
+                tentamenNakijken.opslaan(tempNagekekenVraag);
+            } else {
+                tentamenNakijken.update(tempNagekekenVraag);
+            }
+        } catch (GatewayCommunicationException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int berekenCijcer(int totaalPunten, int behaaldePunten){
+        return behaaldePunten/totaalPunten*9 +1 ;
     }
 }
