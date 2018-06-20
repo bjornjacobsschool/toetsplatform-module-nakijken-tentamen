@@ -32,10 +32,10 @@ public class TentamenNakijken implements ITentamenNakijken {
     @Override
     public List<VragenbankVraagDto> getVragen() throws GatewayCommunicationException {
         ArrayList<VragenbankVraagDto> vragen = new ArrayList<>();
-//        vragen.addAll(Arrays.asList(this.serviceAgent.get("/vragenbank", VragenbankVraagDto[].class)));
+        vragen.addAll(Arrays.asList(this.serviceAgent.get("/vragenbank", VragenbankVraagDto[].class)));
 
-        VragenbankVraagDto vraagDto1 = createTestVraag(vragen);
-        vragen.add(vraagDto1);
+//        VragenbankVraagDto vraagDto1 = createTestVraag(vragen);
+//        vragen.add(vraagDto1);
 
         return vragen;
     }
@@ -44,12 +44,12 @@ public class TentamenNakijken implements ITentamenNakijken {
     @Override
     public List<UitgevoerdTentamenDto> getUitgevoerdeTentamens() throws GatewayCommunicationException {
         ArrayList<UitgevoerdTentamenDto> uitgevoerdTentamenDtos = new ArrayList<>();
-//        uitgevoerdTentamenDtos.addAll(Arrays.asList(this.serviceAgent.get("tentamens/uitgevoerd", UitgevoerdTentamenDto[].class)));
+        uitgevoerdTentamenDtos.addAll(Arrays.asList(this.serviceAgent.get("tentamens/uitgevoerd", UitgevoerdTentamenDto[].class)));
 
-        UitgevoerdTentamenDto uitgevoerdTentamenDto = createUitgevoerdTentamen(33333);
-        UitgevoerdTentamenDto uitgevoerdTentamenDto1 = createUitgevoerdTentamen(4533);
-        uitgevoerdTentamenDtos.add(uitgevoerdTentamenDto);
-        uitgevoerdTentamenDtos.add(uitgevoerdTentamenDto1);
+//        UitgevoerdTentamenDto uitgevoerdTentamenDto = createUitgevoerdTentamen(33333);
+//        UitgevoerdTentamenDto uitgevoerdTentamenDto1 = createUitgevoerdTentamen(4533);
+//        uitgevoerdTentamenDtos.add(uitgevoerdTentamenDto);
+//        uitgevoerdTentamenDtos.add(uitgevoerdTentamenDto1);
 
         return uitgevoerdTentamenDtos;
     }
