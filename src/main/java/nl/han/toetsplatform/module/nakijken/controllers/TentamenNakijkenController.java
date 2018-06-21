@@ -268,6 +268,11 @@ public class TentamenNakijkenController {
     }
 
     public int berekenCijcer(int totaalPunten, int behaaldePunten){
-        return behaaldePunten/totaalPunten*9 +1 ;
+            if(totaalPunten != 0){
+                return behaaldePunten/totaalPunten*9 +1 ;
+            } else {
+                return 1;
+            }
+
     }
 }
