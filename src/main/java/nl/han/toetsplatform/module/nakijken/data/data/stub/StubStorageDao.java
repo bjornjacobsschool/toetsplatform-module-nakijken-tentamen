@@ -16,7 +16,7 @@ public class StubStorageDao implements StorageDao {
 
     public StubStorageDao() {
         try {
-            connection = DriverManager.getConnection("jdbc:sqlite:file.db");
+            connection = DriverManager.getConnection("jdbc:sqlite:NakijkenTentamen.db");
         } catch (SQLException e) {
             e.printStackTrace();
         }
