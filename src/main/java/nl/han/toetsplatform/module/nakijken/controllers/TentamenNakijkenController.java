@@ -18,6 +18,7 @@ import nl.han.toetsplatform.module.nakijken.exceptions.GatewayCommunicationExcep
 import nl.han.toetsplatform.module.nakijken.model.AntwoordOpVraag;
 import nl.han.toetsplatform.module.shared.plugin.Plugin;
 import nl.han.toetsplatform.module.shared.plugin.PluginLoader;
+import nl.han.toetsplatform.module.shared.storage.StorageDao;
 
 import static nl.han.toetsplatform.module.nakijken.util.RunnableUtil.runIfNotNull;
 
@@ -52,9 +53,10 @@ public class TentamenNakijkenController {
     private ObservableList<UitgevoerdTentamenDto> studentenListData = FXCollections.observableArrayList();
     private List<UitgevoerdTentamenDto> uitgevoerdeTentamens;
     private UitgevoerdTentamenDto uitgevoerdTentamen;
-    private StubStorageDao _stoarageDAO = new StubStorageDao();
+    @Inject
+    private StorageDao _stoarageDAO;
     private SQLLoader _sqlLoader = new SQLLoader();
-    private SQLAntwoordOpVraagDAO antwoordOpVraagDAO = new SQLAntwoordOpVraagDAO(_stoarageDAO, _sqlLoader);
+    private SQLAntwoordOpVraagDAO antwoordOpVraagDAO;
     private DatabaseMapper databaseMapper = new DatabaseMapper();
 
     @Inject
@@ -66,6 +68,7 @@ public class TentamenNakijkenController {
         alleVragen = tentamenNakijken.getVragen();
         totaalAantalPuntenLabel.setText("0");
         toelichtingTextArea.setText(" ");
+        antwoordOpVraagDAO = new SQLAntwoordOpVraagDAO(_stoarageDAO, _sqlLoader);
     }
 
     public void setOnTerugClick(Runnable onTerugClick) {
