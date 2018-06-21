@@ -11,6 +11,7 @@ import nl.han.toetsplatform.module.nakijken.config.NakijkenTentamenFXMLFiles;
 import nl.han.toetsplatform.module.nakijken.data.data.SQLLoader;
 import nl.han.toetsplatform.module.nakijken.data.data.dto_model_mapper.createDatabase;
 import nl.han.toetsplatform.module.nakijken.data.data.stub.StubStorageDao;
+import nl.han.toetsplatform.module.shared.storage.StorageDao;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,7 +26,8 @@ public class NakijkenMainController {
     private GuiceFXMLLoader.Result tentamenNakijkenView;
     private GuiceFXMLLoader.Result selecteerKlasView;
     private static final Logger LOGGER = Logger.getLogger(KlasSelectieController.class.getName());
-    private StubStorageDao _storageDao = new StubStorageDao();
+    @Inject
+    private StorageDao _storageDao;
     private SQLLoader      _sqlloader = new SQLLoader();
 
     @Inject

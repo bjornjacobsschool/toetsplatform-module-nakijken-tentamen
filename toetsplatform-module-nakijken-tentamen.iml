@@ -17,9 +17,9 @@
     <orderEntry type="library" name="Maven: aopalliance:aopalliance:1.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: junit:junit:4.12" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-core:2.18.3" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: net.bytebuddy:byte-buddy:1.8.5" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: net.bytebuddy:byte-buddy-agent:1.8.5" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.mockito:mockito-core:2.18.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: net.bytebuddy:byte-buddy:1.8.3" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: net.bytebuddy:byte-buddy-agent:1.8.3" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.objenesis:objenesis:2.6" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.testfx:testfx-core:4.0.13-alpha" level="project" />
@@ -30,7 +30,7 @@
     <orderEntry type="library" name="Maven: javax.ws.rs:jsr311-api:1.1.1" level="project" />
     <orderEntry type="library" name="Maven: com.owlike:genson:1.4" level="project" />
     <orderEntry type="library" name="Maven: org.xerial:sqlite-jdbc:3.23.1" level="project" />
-    <orderEntry type="library" name="Maven: com.github.bjornjacobsschool:toetsplatform-module-shared:develop-884a81de45-1" level="project" />
+    <orderEntry type="library" name="Maven: com.github.bjornjacobsschool:toetsplatform-module-shared:master-d98cc5f6e6-1" level="project" />
     <orderEntry type="library" name="Maven: org.reflections:reflections:0.9.11" level="project" />
     <orderEntry type="library" name="Maven: com.google.guava:guava:20.0" level="project" />
     <orderEntry type="library" name="Maven: org.javassist:javassist:3.21.0-GA" level="project" />

@@ -8,7 +8,9 @@ import nl.han.toetsplatform.module.nakijken.data.data.stub.StubStorageDao;
 import nl.han.toetsplatform.module.nakijken.exceptions.GatewayCommunicationException;
 import nl.han.toetsplatform.module.nakijken.model.*;
 import nl.han.toetsplatform.module.nakijken.serviceagent.GatewayServiceAgent;
+import nl.han.toetsplatform.module.shared.storage.StorageDao;
 
+import javax.inject.Inject;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -18,7 +20,8 @@ import java.util.UUID;
 
 public class DatabaseMapper {
     private SQLLoader myLoader = new SQLLoader();
-    private StubStorageDao myStorage = new StubStorageDao();
+    @Inject
+    private StorageDao myStorage;
     private GatewayServiceAgent myGateway = new GatewayServiceAgent();
 
     public void fillDatabase(UitgevoerdTentamenDto uitgevoerdTentamen) {
